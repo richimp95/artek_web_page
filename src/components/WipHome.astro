@@ -1,119 +1,43 @@
 ---
-import { useTranslations, contact, defaultLang, type Lang } from '../i18n/ui';
+import Button from './Button.astro';
+import { useTranslations, whatsappHref, defaultLang, type Lang } from '../i18n/ui';
 
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 const t = useTranslations(lang);
-const base = import.meta.env.BASE_URL;
-const otherLang: Lang = lang === 'es' ? 'en' : 'es';
-const otherHref = `${base}${otherLang === defaultLang ? '' : 'en/'}`.replace(/\/{2,}/g, '/');
-const waHref = `${contact.whatsapp}?text=${encodeURIComponent(
-  lang === 'es' ? 'Hola, me interesa más información de Artek' : 'Hello, I would like more information about Artek',
-)}`;
 ---
 
-<main class="wip">
-  <header class="wip__top container">
-    <a class="wip__brand" href={base} aria-label="Artek">Artek</a>
-    <a class="wip__lang" href={otherHref}>{otherLang === 'es' ? 'Español' : 'English'}</a>
-  </header>
-
-  <section class="wip__hero container">
+<section class="wip-hero">
+  <div class="container wip-hero__inner">
     <p class="eyebrow">{t('wip.kicker')}</p>
-    <h1 class="wip__title">{t('wip.title')}</h1>
-    <p class="wip__body">{t('wip.body')}</p>
-    <a class="wip__cta" href={waHref} target="_blank" rel="noopener">
-      {t('wip.contact')}
-      <span aria-hidden="true">&rarr;</span>
-    </a>
-  </section>
-
-  <footer class="wip__footer container">
-    <span>&copy; {new Date().getFullYear()} Artek</span>
-    <span class="wip__footer-tag">{t('site.tagline')} · Guatemala</span>
-  </footer>
-</main>
+    <h1 class="wip-hero__title">{t('wip.title')}</h1>
+    <p class="wip-hero__body">{t('wip.body')}</p>
+    <div class="wip-hero__actions">
+      <Button href={whatsappHref(lang)} variant="solid" external>
+        {t('wip.contact')}
+        <span aria-hidden="true">&rarr;</span>
+      </Button>
+    </div>
+  </div>
+</section>
 
 <style>
-  .wip {
+  .wip-hero {
+    padding-block: clamp(var(--space-xl), 12vw, var(--space-2xl));
+  }
+  .wip-hero__inner {
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
-  }
-
-  .wip__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-block: var(--space-m);
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .wip__brand {
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-    letter-spacing: 0.02em;
-  }
-
-  .wip__lang {
-    font-size: var(--step--1);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    transition: color var(--transition);
-  }
-  .wip__lang:hover {
-    color: var(--accent-strong);
-  }
-
-  .wip__hero {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     gap: var(--space-m);
-    padding-block: var(--space-2xl);
-    max-width: var(--container);
   }
-
-  .wip__title {
-    max-width: 18ch;
+  .wip-hero__title {
+    max-width: 16ch;
   }
-
-  .wip__body {
+  .wip-hero__body {
     font-size: var(--step-1);
     color: var(--fg-muted);
     max-width: 46ch;
   }
-
-  .wip__cta {
-    align-self: start;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6em;
+  .wip-hero__actions {
     margin-top: var(--space-s);
-    padding: 0.9em 1.6em;
-    border: 1px solid var(--fg);
-    border-radius: var(--radius);
-    font-size: var(--step--1);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    transition:
-      background var(--transition),
-      color var(--transition);
-  }
-  .wip__cta:hover {
-    background: var(--fg);
-    color: var(--bg);
-  }
-
-  .wip__footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs) var(--space-m);
-    justify-content: space-between;
-    padding-block: var(--space-m);
-    border-top: 1px solid var(--rule);
-    font-size: var(--step--1);
-    color: var(--color-stone);
   }
 </style>

@@ -1,0 +1,72 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'solid' | 'outline' | 'ghost';
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = 'outline', external = false, class: extra = '' } = Astro.props;
+const Tag = href ? 'a' : 'button';
+const rel = external ? 'noopener noreferrer' : undefined;
+const target = external ? '_blank' : undefined;
+---
+
+<Tag class:list={['btn', `btn--${variant}`, extra]} href={href} rel={rel} target={target}>
+  <span class="btn__label"><slot /></span>
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.85em 1.6em;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    cursor: pointer;
+    background: none;
+    transition:
+      background var(--transition),
+      color var(--transition),
+      border-color var(--transition);
+  }
+
+  .btn--solid {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .btn--solid:hover {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+  }
+
+  .btn--outline {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+  .btn--outline:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .btn--ghost {
+    color: var(--fg);
+    padding-inline: 0;
+    border: none;
+  }
+  .btn--ghost .btn__label {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.25em;
+    transition: border-color var(--transition);
+  }
+  .btn--ghost:hover .btn__label {
+    border-color: var(--accent-strong);
+  }
+</style>

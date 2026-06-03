@@ -1,0 +1,28 @@
+---
+import { getRoutePath, otherLang, languages, type Lang, type RouteKey } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  routeKey: RouteKey;
+}
+
+const { lang, routeKey } = Astro.props;
+const target = otherLang(lang);
+const href = getRoutePath(target, routeKey);
+---
+
+<a class="lang-switcher" href={href} hreflang={target} lang={target} aria-label={languages[target]}>
+  <span class="lang-switcher__code">{target.toUpperCase()}</span>
+</a>
+
+<style>
+  .lang-switcher {
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+    transition: color var(--transition);
+  }
+  .lang-switcher:hover {
+    color: var(--accent-strong);
+  }
+</style>

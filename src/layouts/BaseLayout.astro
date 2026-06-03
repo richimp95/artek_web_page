@@ -2,38 +2,19 @@
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
-import { defaultLang, type Lang } from '../i18n/ui';
+import SEO from '../components/SEO.astro';
+import { defaultLang, type Lang, type RouteKey } from '../i18n/ui';
 
 interface Props {
   title: string;
   description: string;
-  /** Ruta sin prefijo de idioma, p.ej. "" para inicio, "servicios/" */
-  path?: string;
+  /** Sección actual, para canonical/hreflang y estado activo del nav. */
+  routeKey?: RouteKey;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, path = '' } = Astro.props;
+const { title, description, routeKey = 'home', jsonLd } = Astro.props;
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
-
-const site = Astro.site ?? new URL('http://localhost');
-const base = import.meta.env.BASE_URL; // p.ej. "/artek_web_page/"
-
-const join = (...parts: string[]) => `/${parts.join('/')}/`.replace(/\/{2,}/g, '/');
-
-// Construye URL absoluta para un idioma + ruta relativa (sin prefijo).
-const buildUrl = (l: Lang, p: string) => {
-  const prefix = l === defaultLang ? '' : l;
-  return new URL(join(base, prefix, p), site).href;
-};
-
-const canonical = buildUrl(lang, path);
-const alternates: { lang: Lang; href: string }[] = [
-  { lang: 'es', href: buildUrl('es', path) },
-  { lang: 'en', href: buildUrl('en', path) },
-];
-const xDefault = buildUrl(defaultLang, path);
-const ogLocale = lang === 'es' ? 'es_GT' : 'en_US';
-const ogImage = new URL(join(base, 'og-image.jpg'), site).href;
-const faviconHref = join(base, 'favicon.svg');
 ---
 
 <!doctype html>
@@ -41,23 +22,7 @@ const faviconHref = join(base, 'favicon.svg');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={xDefault} />
-
-    <!-- Open Graph / Twitter -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Artek" />
-    <meta property="og:locale" content={ogLocale} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="icon" href={faviconHref} type="image/svg+xml" />
+    <SEO title={title} description={description} lang={lang} routeKey={routeKey} jsonLd={jsonLd} />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>

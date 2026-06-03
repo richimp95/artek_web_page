@@ -1,0 +1,133 @@
+---
+import {
+  getRoutePath,
+  navItems,
+  useTranslations,
+  contact,
+  whatsappHref,
+  type Lang,
+  type RouteKey,
+} from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+const items = navItems
+  .filter((i) => i.key !== 'home')
+  .map((i) => ({ ...i, href: getRoutePath(lang, i.key as RouteKey) }));
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">Artek</p>
+      <p class="site-footer__tag">{t('site.tagline')}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label={t('nav.services')}>
+      <ul>
+        {items.map((i) => <li><a href={i.href}>{t(i.label)}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-footer__contact">
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+      <address>{contact.address}</address>
+      <div class="site-footer__social">
+        <a href={whatsappHref(lang)} target="_blank" rel="noopener">WhatsApp</a>
+        <a href={contact.social.instagram} target="_blank" rel="noopener">Instagram</a>
+        <a href={contact.social.facebook} target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <span>&copy; {year} Artek. {t('footer.rights')}</span>
+    <span>Guatemala</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    background: var(--color-ink);
+    color: var(--color-bone);
+    padding-block: var(--space-xl) var(--space-m);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.6fr;
+    gap: var(--space-l);
+    padding-bottom: var(--space-l);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 18%, transparent);
+  }
+
+  .site-footer__name {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    letter-spacing: 0.04em;
+  }
+  .site-footer__tag {
+    color: var(--color-stone-light);
+    margin-top: var(--space-2xs);
+  }
+
+  .site-footer__nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .site-footer__nav a,
+  .site-footer__contact a {
+    color: var(--color-bone);
+    font-size: var(--step--1);
+    transition: color var(--transition);
+  }
+  .site-footer__nav a:hover,
+  .site-footer__contact a:hover {
+    color: var(--accent);
+  }
+
+  .site-footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-size: var(--step--1);
+  }
+  .site-footer__contact address {
+    font-style: normal;
+    color: var(--color-stone-light);
+    max-width: 32ch;
+  }
+  .site-footer__social {
+    display: flex;
+    gap: var(--space-m);
+    margin-top: var(--space-2xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+    font-size: var(--step--1);
+    color: var(--color-stone-light);
+  }
+
+  @media (max-width: 52rem) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-m);
+    }
+  }
+</style>

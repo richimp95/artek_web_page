@@ -1,12 +1,44 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
 import WipHome from '../../components/WipHome.astro';
+import SectionBlock from '../../components/SectionBlock.astro';
 import { useTranslations } from '../../i18n/ui';
 
 const t = useTranslations('en');
 const title = `${t('site.name')} — ${t('site.tagline')}`;
+
+const services = [
+  'ChromaLuxe aluminum prints',
+  'Acrylic prints',
+  'Fine art paper',
+  'Acrylic encapsulation',
+  'Large-format premium printing',
+  'Custom wall art',
+];
 ---
 
-<BaseLayout title={title} description={t('site.description')}>
+<PageLayout title={title} description={t('site.description')} routeKey="home">
   <WipHome />
-</BaseLayout>
+  <SectionBlock number="01" eyebrow="Services" title="What we do" alt>
+    <ul class="services-teaser">
+      {services.map((s) => <li>{s}</li>)}
+    </ul>
+  </SectionBlock>
+</PageLayout>
+
+<style>
+  .services-teaser {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-m);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.2;
+  }
+  .services-teaser li {
+    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--rule);
+  }
+</style>

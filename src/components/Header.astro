@@ -1,0 +1,223 @@
+---
+import LangSwitcher from './LangSwitcher.astro';
+import {
+  getRoutePath,
+  navItems,
+  useTranslations,
+  defaultLang,
+  type Lang,
+  type RouteKey,
+} from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  routeKey: RouteKey;
+}
+
+const { lang, routeKey } = Astro.props;
+const t = useTranslations(lang);
+const homeHref = getRoutePath(lang, 'home');
+const items = navItems.map((item) => ({
+  ...item,
+  href: getRoutePath(lang, item.key),
+  active: item.key === routeKey,
+}));
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={homeHref} aria-label="Artek — Inicio">Artek</a>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <span class="visually-hidden">Menú</span>
+      <span class="site-header__bars" aria-hidden="true"></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Principal" data-nav>
+      <ul class="site-nav__list">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                class:list={['site-nav__link', { 'is-active': item.active }]}
+                href={item.href}
+                aria-current={item.active ? 'page' : undefined}
+              >
+                {t(item.label)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="site-nav__lang">
+        <LangSwitcher lang={lang} routeKey={routeKey} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-s);
+  }
+
+  .site-header__brand {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    letter-spacing: 0.04em;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    list-style: none;
+    padding: 0;
+  }
+
+  .site-nav__link {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    padding-block: 0.35em;
+    border-bottom: 1px solid transparent;
+    transition:
+      color var(--transition),
+      border-color var(--transition);
+  }
+  .site-nav__link:hover,
+  .site-nav__link.is-active {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+
+  .site-header__toggle {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .site-header__bars,
+  .site-header__bars::before,
+  .site-header__bars::after {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--fg);
+    transition: transform var(--transition), opacity var(--transition);
+  }
+  .site-header__bars {
+    position: relative;
+  }
+  .site-header__bars::before,
+  .site-header__bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .site-header__bars::before {
+    top: -6px;
+  }
+  .site-header__bars::after {
+    top: 6px;
+  }
+
+  /* --- Móvil --- */
+  @media (max-width: 52rem) {
+    .site-header__toggle {
+      display: inline-flex;
+    }
+    .site-nav {
+      position: fixed;
+      inset: 0;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-l);
+      background: var(--bg);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        transform var(--transition),
+        opacity var(--transition),
+        visibility var(--transition);
+    }
+    .site-nav.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .site-nav__list {
+      flex-direction: column;
+      gap: var(--space-m);
+    }
+    .site-nav__link {
+      font-size: var(--step-1);
+    }
+    .site-header[data-open] .site-header__bars {
+      background: transparent;
+    }
+    .site-header[data-open] .site-header__bars::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .site-header[data-open] .site-header__bars::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+</style>
+
+<script>
+  const header = document.currentScript?.closest('.site-header') as HTMLElement | null;
+  // Fallback robusto: tomar el header del documento
+  const root = header ?? document.querySelector<HTMLElement>('.site-header');
+  if (root) {
+    const toggle = root.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+    const nav = root.querySelector<HTMLElement>('[data-nav]');
+    toggle?.addEventListener('click', () => {
+      const open = nav?.classList.toggle('is-open') ?? false;
+      toggle.setAttribute('aria-expanded', String(open));
+      root.toggleAttribute('data-open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    // Cerrar al navegar
+    nav?.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        root.removeAttribute('data-open');
+        document.body.style.overflow = '';
+      }),
+    );
+  }
+</script>

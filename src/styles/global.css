@@ -22,6 +22,8 @@ html {
 
 body {
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sans);
@@ -30,6 +32,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+main {
+  flex: 1;
 }
 
 img,
