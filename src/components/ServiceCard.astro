@@ -1,0 +1,65 @@
+---
+import { getRoutePath, useTranslations, type Lang } from '../i18n/ui';
+import type { Service } from '../data/services';
+
+interface Props {
+  service: Service;
+  lang: Lang;
+  index: number;
+}
+
+const { service, lang, index } = Astro.props;
+const t = useTranslations(lang);
+const href = `${getRoutePath(lang, 'services')}${service.slug[lang]}/`;
+const num = String(index + 1).padStart(2, '0');
+---
+
+<a class="service-card" href={href}>
+  <span class="service-card__num">{num}</span>
+  <h3 class="service-card__title">{service.title[lang]}</h3>
+  <p class="service-card__summary">{service.summary[lang]}</p>
+  <span class="service-card__more">{t('services.more')} <span aria-hidden="true">&rarr;</span></span>
+</a>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-m) 0;
+    border-top: 1px solid var(--rule);
+    transition: border-color var(--transition);
+  }
+  .service-card:hover {
+    border-color: var(--fg);
+  }
+
+  .service-card__num {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    color: var(--accent-strong);
+    font-feature-settings: 'tnum';
+  }
+
+  .service-card__title {
+    font-size: var(--step-2);
+  }
+
+  .service-card__summary {
+    color: var(--fg-muted);
+    font-size: var(--step-0);
+    max-width: 42ch;
+  }
+
+  .service-card__more {
+    margin-top: var(--space-xs);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--fg);
+    transition: color var(--transition);
+  }
+  .service-card:hover .service-card__more {
+    color: var(--accent-strong);
+  }
+</style>

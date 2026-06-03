@@ -2,14 +2,47 @@
   "site.name": "Artek",
   "site.tagline": "Premium printing & fine art",
   "site.description": "Artek — premium printing and art finishing solutions in Guatemala: ChromaLuxe aluminum, acrylic, fine art paper, large-format and custom wall art.",
+
   "nav.home": "Home",
   "nav.services": "Services",
   "nav.portfolio": "Portfolio",
   "nav.about": "About",
   "nav.contact": "Contact",
-  "wip.kicker": "Site under construction",
-  "wip.title": "We are crafting something exceptional",
-  "wip.body": "Artek's new website is in development. Premium printing and fine art for residential, commercial, hospitality and artistic spaces.",
-  "wip.contact": "Message us on WhatsApp",
+
+  "hero.eyebrow": "Fine art printing · Guatemala",
+  "hero.headline": "Your images, elevated into art",
+  "hero.lead": "High-end printing and finishing on aluminum, acrylic and fine art paper for residential, commercial, hospitality and artistic spaces.",
+  "hero.cta_primary": "Let's talk about your project",
+  "hero.cta_secondary": "View portfolio",
+
+  "intro.eyebrow": "Studio",
+  "intro.title": "Printing technology in service of art",
+  "intro.body": "We work with high-end materials and advanced technologies to create sophisticated visual pieces. Every project is produced to order, with obsessive attention to color, detail and finish.",
+
+  "services.eyebrow": "Services",
+  "services.title": "What we do",
+  "services.cta": "View all services",
+  "services.more": "Learn more",
+
+  "portfolio.eyebrow": "Portfolio",
+  "portfolio.title": "Selected work",
+  "portfolio.cta": "View full portfolio",
+
+  "why.eyebrow": "Why Artek",
+  "why.title": "Made to last",
+  "why.1.title": "Innovation",
+  "why.1.body": "Materials and techniques that take your images beyond the ordinary and give every space character.",
+  "why.2.title": "Color quality",
+  "why.2.body": "Exceptional color performance, deep contrast and a unique three-dimensional effect.",
+  "why.3.title": "Premium materials",
+  "why.3.body": "High-end, acid-free, archival substrates built to last for generations.",
+  "why.4.title": "Advanced technology",
+  "why.4.body": "State-of-the-art printing equipment operated with artisanal precision.",
+
+  "cta.title": "Have a project in mind?",
+  "cta.body": "Tell us what you envision and we'll advise you on materials, formats and finishes.",
+  "cta.whatsapp": "Message us on WhatsApp",
+  "cta.email": "Send an email",
+
   "footer.rights": "All rights reserved."
 }

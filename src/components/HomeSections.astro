@@ -1,0 +1,145 @@
+---
+import { Image } from 'astro:assets';
+import Hero from './Hero.astro';
+import SectionBlock from './SectionBlock.astro';
+import ServiceCard from './ServiceCard.astro';
+import CTA from './CTA.astro';
+import Button from './Button.astro';
+import { services } from '../data/services';
+import { useTranslations, getRoutePath, defaultLang, type Lang } from '../i18n/ui';
+
+import imgGlobos from '../assets/portfolio/globos-madera.jpg';
+import imgFamilia from '../assets/portfolio/familia-aluminio.jpg';
+import imgMuro from '../assets/portfolio/muro-galeria.jpg';
+import imgColeccion from '../assets/portfolio/coleccion.jpg';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+
+const servicesHref = getRoutePath(lang, 'services');
+const portfolioHref = getRoutePath(lang, 'portfolio');
+
+const why = [1, 2, 3, 4] as const;
+
+const featured = [
+  { img: imgMuro, alt: lang === 'es' ? 'Muro con múltiples impresiones' : 'Wall with multiple prints' },
+  { img: imgFamilia, alt: lang === 'es' ? 'Retrato familiar sobre aluminio' : 'Family portrait on aluminum' },
+  { img: imgGlobos, alt: lang === 'es' ? 'Impresión de globos aerostáticos' : 'Hot-air balloons print' },
+  { img: imgColeccion, alt: lang === 'es' ? 'Colección de piezas impresas' : 'Collection of printed pieces' },
+];
+---
+
+<Hero />
+
+<SectionBlock number="01" eyebrow={t('intro.eyebrow')} title={t('intro.title')}>
+  <p class="intro-body">{t('intro.body')}</p>
+</SectionBlock>
+
+<SectionBlock number="02" eyebrow={t('services.eyebrow')} title={t('services.title')} alt>
+  <div class="services-grid">
+    {services.map((service, i) => <ServiceCard service={service} lang={lang} index={i} />)}
+  </div>
+  <div class="section-cta">
+    <Button href={servicesHref} variant="ghost">{t('services.cta')}</Button>
+  </div>
+</SectionBlock>
+
+<SectionBlock number="03" eyebrow={t('portfolio.eyebrow')} title={t('portfolio.title')}>
+  <div class="portfolio-grid">
+    {
+      featured.map((item, i) => (
+        <figure class:list={['portfolio-item', { 'portfolio-item--wide': i === 0 }]}>
+          <Image
+            src={item.img}
+            alt={item.alt}
+            widths={[400, 800, 1200]}
+            sizes="(max-width: 50rem) 100vw, 45vw"
+            loading="lazy"
+          />
+        </figure>
+      ))
+    }
+  </div>
+  <div class="section-cta">
+    <Button href={portfolioHref} variant="ghost">{t('portfolio.cta')}</Button>
+  </div>
+</SectionBlock>
+
+<SectionBlock number="04" eyebrow={t('why.eyebrow')} title={t('why.title')} alt>
+  <div class="why-grid">
+    {
+      why.map((n) => (
+        <div class="why-item">
+          <h3 class="why-item__title">{t(`why.${n}.title` as 'why.1.title')}</h3>
+          <p class="why-item__body">{t(`why.${n}.body` as 'why.1.body')}</p>
+        </div>
+      ))
+    }
+  </div>
+</SectionBlock>
+
+<CTA />
+
+<style>
+  .intro-body {
+    font-size: var(--step-1);
+    max-width: 60ch;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: 0 var(--space-2xl);
+  }
+
+  .section-cta {
+    margin-top: var(--space-l);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-s);
+  }
+  .portfolio-item {
+    overflow: hidden;
+    background: var(--bg-alt);
+  }
+  .portfolio-item :global(img) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .portfolio-item:hover :global(img) {
+    transform: scale(1.04);
+  }
+  @media (min-width: 50rem) {
+    .portfolio-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .portfolio-item--wide {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .portfolio-item--wide :global(img) {
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-l) var(--space-m);
+  }
+  .why-item__title {
+    font-size: var(--step-1);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--rule);
+  }
+  .why-item__body {
+    margin-top: var(--space-s);
+    color: var(--fg-muted);
+  }
+</style>

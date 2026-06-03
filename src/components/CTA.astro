@@ -1,0 +1,62 @@
+---
+import Button from './Button.astro';
+import { useTranslations, whatsappHref, contact, defaultLang, type Lang } from '../i18n/ui';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+---
+
+<section class="cta">
+  <div class="container cta__inner">
+    <div class="cta__text">
+      <h2 class="cta__title">{t('cta.title')}</h2>
+      <p class="cta__body">{t('cta.body')}</p>
+    </div>
+    <div class="cta__actions">
+      <Button href={whatsappHref(lang)} variant="solid" external>{t('cta.whatsapp')}</Button>
+      <Button href={`mailto:${contact.email}`} variant="outline">{t('cta.email')}</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    padding-block: var(--space-2xl);
+  }
+
+  .cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-l);
+  }
+
+  .cta__title {
+    max-width: 16ch;
+  }
+  .cta__body {
+    color: var(--color-stone-light);
+    margin-top: var(--space-s);
+    max-width: 44ch;
+  }
+
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+  }
+
+  /* Botones sobre fondo oscuro: invertir outline */
+  .cta :global(.btn--outline) {
+    color: var(--color-bone);
+    border-color: color-mix(in srgb, var(--color-bone) 50%, transparent);
+  }
+  .cta :global(.btn--outline:hover) {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    border-color: var(--color-bone);
+  }
+</style>

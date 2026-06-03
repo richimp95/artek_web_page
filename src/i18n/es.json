@@ -2,14 +2,47 @@
   "site.name": "Artek",
   "site.tagline": "Impresión y arte de alta gama",
   "site.description": "Artek — soluciones de impresión y acabado artístico premium en Guatemala: ChromaLuxe en aluminio, acrílico, fine art, gran formato y arte mural a medida.",
+
   "nav.home": "Inicio",
   "nav.services": "Servicios",
   "nav.portfolio": "Portafolio",
   "nav.about": "Nosotros",
   "nav.contact": "Contacto",
-  "wip.kicker": "Sitio en construcción",
-  "wip.title": "Estamos creando algo excepcional",
-  "wip.body": "El nuevo sitio de Artek está en desarrollo. Impresión y arte de alta gama para espacios residenciales, comerciales, hoteleros y artísticos.",
-  "wip.contact": "Escríbenos por WhatsApp",
+
+  "hero.eyebrow": "Impresión fine art · Guatemala",
+  "hero.headline": "Tus imágenes, elevadas a obra de arte",
+  "hero.lead": "Impresión y acabado de alta gama sobre aluminio, acrílico y fine art paper para espacios residenciales, comerciales, hoteleros y artísticos.",
+  "hero.cta_primary": "Hablemos de tu proyecto",
+  "hero.cta_secondary": "Ver portafolio",
+
+  "intro.eyebrow": "Estudio",
+  "intro.title": "Tecnología de impresión al servicio del arte",
+  "intro.body": "Trabajamos con materiales de alta gama y tecnologías avanzadas para crear piezas visuales sofisticadas. Cada proyecto se produce a la medida, con atención obsesiva al color, al detalle y al acabado.",
+
+  "services.eyebrow": "Servicios",
+  "services.title": "Lo que hacemos",
+  "services.cta": "Ver todos los servicios",
+  "services.more": "Conocer más",
+
+  "portfolio.eyebrow": "Portafolio",
+  "portfolio.title": "Trabajos seleccionados",
+  "portfolio.cta": "Ver portafolio completo",
+
+  "why.eyebrow": "Por qué Artek",
+  "why.title": "Hecho para perdurar",
+  "why.1.title": "Innovación",
+  "why.1.body": "Materiales y técnicas que sacan tus imágenes de lo común y le dan carácter a cada espacio.",
+  "why.2.title": "Calidad cromática",
+  "why.2.body": "Rendimiento de color excepcional, gran contraste y un efecto de tridimensionalidad único.",
+  "why.3.title": "Materiales premium",
+  "why.3.body": "Soportes de alta gama, libres de ácido y de archivo, pensados para durar generaciones.",
+  "why.4.title": "Tecnología avanzada",
+  "why.4.body": "Equipos de impresión de última generación operados con precisión artesanal.",
+
+  "cta.title": "¿Tienes un proyecto en mente?",
+  "cta.body": "Cuéntanos qué imaginas y te asesoramos en materiales, formatos y acabados.",
+  "cta.whatsapp": "Escríbenos por WhatsApp",
+  "cta.email": "Enviar un correo",
+
   "footer.rights": "Todos los derechos reservados."
 }

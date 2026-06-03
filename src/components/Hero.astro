@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+import Button from './Button.astro';
+import heroImg from '../assets/hero-aluminio.jpg';
+import {
+  useTranslations,
+  getRoutePath,
+  whatsappHref,
+  defaultLang,
+  type Lang,
+} from '../i18n/ui';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+const portfolioHref = getRoutePath(lang, 'portfolio');
+---
+
+<section class="hero">
+  <div class="hero__text">
+    <p class="eyebrow">{t('hero.eyebrow')}</p>
+    <h1 class="hero__headline">{t('hero.headline')}</h1>
+    <p class="hero__lead">{t('hero.lead')}</p>
+    <div class="hero__actions">
+      <Button href={whatsappHref(lang)} variant="solid" external>{t('hero.cta_primary')}</Button>
+      <Button href={portfolioHref} variant="ghost">{t('hero.cta_secondary')}</Button>
+    </div>
+  </div>
+
+  <div class="hero__media">
+    <Image
+      src={heroImg}
+      alt={lang === 'es'
+        ? 'Obra de arte a color impresa sobre lámina de aluminio'
+        : 'Colorful artwork printed on an aluminum panel'}
+      widths={[480, 800, 1200, 1600]}
+      sizes="(max-width: 60rem) 100vw, 55vw"
+      loading="eager"
+      fetchpriority="high"
+      class="hero__img"
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    align-items: center;
+    padding-block: var(--space-xl);
+  }
+
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding-inline: var(--gutter);
+    max-width: var(--container);
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .hero__headline {
+    max-width: 14ch;
+  }
+
+  .hero__lead {
+    font-size: var(--step-1);
+    color: var(--fg-muted);
+    max-width: 44ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  .hero__media {
+    overflow: hidden;
+  }
+  .hero__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  /* Layout asimétrico editorial en pantallas grandes */
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding-block: 0;
+      min-height: min(80vh, 720px);
+    }
+    .hero__text {
+      padding-block: var(--space-2xl);
+    }
+    .hero__media {
+      height: 100%;
+    }
+    .hero__img {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (min-width: 90rem) {
+    /* La imagen sangra hasta el borde derecho de la ventana */
+    .hero {
+      grid-template-columns: 1fr minmax(0, 50vw);
+    }
+  }
+</style>
