@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WipHome from '../components/WipHome.astro';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('es');
+const title = `${t('site.name')} — ${t('site.tagline')}`;
+---
+
+<BaseLayout title={title} description={t('site.description')}>
+  <WipHome />
+</BaseLayout>

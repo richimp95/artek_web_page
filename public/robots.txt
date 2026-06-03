@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://richimp95.github.io/artek_web_page/sitemap-index.xml

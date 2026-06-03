@@ -1,0 +1,62 @@
+/* ============================================================
+   Artek — Design Tokens
+   Dirección: Editorial de lujo (neutra premium + acento bronce)
+   ============================================================ */
+
+:root {
+  /* --- Color: paleta neutra premium --- */
+  --color-bone: #f6f3ee; /* fondo cálido hueso */
+  --color-bone-deep: #ece7df; /* superficies sutiles */
+  --color-ink: #16140f; /* tinta casi negra */
+  --color-ink-soft: #3a362f; /* texto secundario */
+  --color-stone: #8c857a; /* grises piedra/taupe */
+  --color-stone-light: #b9b2a6;
+  --color-line: #d8d2c7; /* líneas finas divisorias */
+  --color-bronze: #9a7b4f; /* acento metálico sutil */
+  --color-bronze-deep: #7c6240;
+
+  /* --- Semánticos --- */
+  --bg: var(--color-bone);
+  --bg-alt: var(--color-bone-deep);
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-ink-soft);
+  --accent: var(--color-bronze);
+  --accent-strong: var(--color-bronze-deep);
+  --rule: var(--color-line);
+
+  /* --- Tipografía --- */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Escala fluida (clamp: min, preferido, max) */
+  --step--1: clamp(0.83rem, 0.78rem + 0.25vw, 0.95rem);
+  --step-0: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.6vw, 1.5rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2.1rem);
+  --step-3: clamp(1.95rem, 1.6rem + 1.8vw, 3rem);
+  --step-4: clamp(2.5rem, 1.9rem + 3vw, 4.5rem);
+  --step-5: clamp(3rem, 2rem + 5vw, 6.5rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.6;
+  --tracking-wide: 0.18em; /* para kickers/eyebrow en mayúsculas */
+
+  /* --- Espaciado --- */
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.75rem;
+  --space-l: 3rem;
+  --space-xl: 5rem;
+  --space-2xl: 8rem;
+
+  /* --- Layout --- */
+  --container: 80rem; /* ~1280px */
+  --container-narrow: 48rem;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+
+  /* --- Otros --- */
+  --radius: 2px;
+  --transition: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
