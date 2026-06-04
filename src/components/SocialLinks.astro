@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import { contact, whatsappHref, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+
+const { lang, class: extra = '' } = Astro.props;
+
+const links = [
+  { name: 'instagram' as const, href: contact.social.instagram, label: 'Instagram' },
+  { name: 'facebook' as const, href: contact.social.facebook, label: 'Facebook' },
+  { name: 'whatsapp' as const, href: whatsappHref(lang), label: 'WhatsApp' },
+];
+---
+
+<ul class:list={['social', extra]}>
+  {
+    links.map((l) => (
+      <li>
+        <a href={l.href} target="_blank" rel="noopener" aria-label={l.label}>
+          <Icon name={l.name} size={20} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: inherit;
+    opacity: 0.75;
+    transition:
+      opacity var(--transition),
+      transform var(--transition),
+      color var(--transition),
+      border-color var(--transition);
+  }
+  .social a:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    color: var(--brand-orange);
+    border-color: var(--brand-orange);
+  }
+</style>

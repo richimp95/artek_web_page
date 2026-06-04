@@ -3,6 +3,7 @@
    Reset moderno + base tipográfica editorial
    ============================================================ */
 
+@import './fonts.css';
 @import './tokens.css';
 
 *,
@@ -52,10 +53,11 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 380;
+  font-weight: 400;
   line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--tracking-display);
   text-wrap: balance;
+  text-transform: uppercase;
 }
 
 h1 {
@@ -99,6 +101,21 @@ a {
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--accent-strong);
+}
+
+/* Texto con el gradiente de marca */
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline con el gradiente de marca */
+.gradient-rule {
+  height: 2px;
+  border: 0;
+  background: var(--gradient-brand);
 }
 
 .visually-hidden {

@@ -1,12 +1,12 @@
 ---
 import { Image } from 'astro:assets';
+import SocialLinks from './SocialLinks.astro';
 import logoWhite from '../assets/logo-artek-white.png';
 import {
   getRoutePath,
   navItems,
   useTranslations,
   contact,
-  whatsappHref,
   type Lang,
   type RouteKey,
 } from '../i18n/ui';
@@ -40,11 +40,7 @@ const items = navItems
       <a href={`mailto:${contact.email}`}>{contact.email}</a>
       <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
       <address>{contact.address}</address>
-      <div class="site-footer__social">
-        <a href={whatsappHref(lang)} target="_blank" rel="noopener">WhatsApp</a>
-        <a href={contact.social.instagram} target="_blank" rel="noopener">Instagram</a>
-        <a href={contact.social.facebook} target="_blank" rel="noopener">Facebook</a>
-      </div>
+      <SocialLinks lang={lang} class="site-footer__social" />
     </div>
   </div>
 
@@ -109,11 +105,7 @@ const items = navItems
     max-width: 32ch;
   }
   .site-footer__social {
-    display: flex;
-    gap: var(--space-m);
-    margin-top: var(--space-2xs);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    margin-top: var(--space-xs);
   }
 
   .site-footer__bottom {
