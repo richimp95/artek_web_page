@@ -2,10 +2,14 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Despliegue en GitHub Pages (project pages). Si más adelante se usa un dominio
-// propio, cambiar `site` al dominio y `base` a '/'.
-const SITE = 'https://richimp95.github.io';
-const BASE = '/artek_web_page';
+// Despliegue dual según el entorno (lo fija cada workflow con DEPLOY_TARGET):
+//  - 'pages' → GitHub Pages (staging), sirve bajo /artek_web_page/
+//  - 'ftp'   → servidor propio artekgt.com (producción), sirve en la raíz
+// Por defecto 'ftp' (producción) para builds locales y el deploy a FTP.
+const TARGET = process.env.DEPLOY_TARGET ?? 'ftp';
+const isPages = TARGET === 'pages';
+const SITE = isPages ? 'https://richimp95.github.io' : 'https://artekgt.com';
+const BASE = isPages ? '/artek_web_page' : '/';
 
 // https://astro.build/config
 export default defineConfig({

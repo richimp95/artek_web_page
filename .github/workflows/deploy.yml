@@ -1,10 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy a GitHub Pages (staging)
 
+# Vista previa del rediseño. La producción real va por FTP a artekgt.com (ver ftp.yml).
 on:
   push:
-    # Durante el rediseño desplegamos desde la rama de trabajo para ver resultados.
-    # Tras el merge final, cambiar a `main`.
-    branches: [redesign/astro, main]
+    branches: [redesign/astro]
   workflow_dispatch:
 
 # Permisos para desplegar a GitHub Pages
@@ -21,6 +20,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_TARGET: pages # base=/artek_web_page/, site=github.io
     steps:
       - name: Checkout
         uses: actions/checkout@v4
