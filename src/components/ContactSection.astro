@@ -95,13 +95,13 @@ const wa = whatsappHref(lang);
 
   .contact-cards {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-s);
     margin-bottom: var(--space-xl);
   }
   @media (min-width: 50rem) {
     .contact-cards {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
   }
 
@@ -109,7 +109,8 @@ const wa = whatsappHref(lang);
     display: flex;
     align-items: center;
     gap: var(--space-m);
-    padding: var(--space-m) var(--space-l);
+    min-width: 0;
+    padding: var(--space-m) clamp(1.25rem, 5vw, 3rem);
     border: 1px solid var(--rule);
     border-radius: var(--radius);
     text-decoration: none;
@@ -151,6 +152,12 @@ const wa = whatsappHref(lang);
     color: #fff;
   }
 
+  /* Permite que el bloque de texto se encoja por debajo del ancho de su
+     contenido (si no, un email/valor sin cortes fuerza el ancho del flex
+     item → del grid → del viewport, y la página sale "con zoom" en móvil). */
+  .contact-card > div {
+    min-width: 0;
+  }
   .contact-card__label {
     font-size: var(--step--1);
     letter-spacing: var(--tracking-wide);
@@ -162,6 +169,7 @@ const wa = whatsappHref(lang);
     font-style: normal;
     margin-top: 0.25em;
     color: var(--fg);
+    overflow-wrap: anywhere;
   }
   .contact-card__arrow {
     margin-left: auto;

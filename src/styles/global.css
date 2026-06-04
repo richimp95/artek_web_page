@@ -58,6 +58,11 @@ h4 {
   letter-spacing: var(--tracking-display);
   text-wrap: balance;
   text-transform: uppercase;
+  /* Red de seguridad: una palabra larga en mayúsculas (p. ej.
+     "SELECCIONADOS") no debe desbordar su bloque y empujar el ancho de la
+     página → la web salía "con zoom" en móvil. Parte la palabra si hace falta. */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 h1 {
