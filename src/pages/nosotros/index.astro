@@ -1,0 +1,12 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import AboutSections from '../../components/AboutSections.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('es');
+const title = `${t('about.title')} — Artek`;
+---
+
+<PageLayout title={title} description={t('about.lead')} routeKey="about">
+  <AboutSections />
+</PageLayout>

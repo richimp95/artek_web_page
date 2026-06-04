@@ -1,0 +1,166 @@
+---
+import SectionBlock from './SectionBlock.astro';
+import Button from './Button.astro';
+import { useTranslations, whatsappHref, defaultLang, type Lang } from '../i18n/ui';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+
+const values = [
+  { key: 'excellence', icon: '◆' },
+  { key: 'honesty',    icon: '◆' },
+  { key: 'quality',    icon: '◆' },
+  { key: 'precision',  icon: '◆' },
+] as const;
+---
+
+<SectionBlock number="01" eyebrow={t('about.eyebrow')} title={t('about.title')}>
+  <p class="about-lead">{t('about.lead')}</p>
+</SectionBlock>
+
+<SectionBlock number="02" eyebrow={t('about.mission_eyebrow')} title={t('about.mission_title')} alt>
+  <div class="about-mvv">
+    <div class="about-mvv__block">
+      <h3>{t('about.mission_title')}</h3>
+      <p>{t('about.mission_body')}</p>
+    </div>
+    <div class="about-mvv__block">
+      <h3>{t('about.vision_title')}</h3>
+      <p>{t('about.vision_body')}</p>
+    </div>
+  </div>
+</SectionBlock>
+
+<SectionBlock number="03" eyebrow={t('about.values_eyebrow')} title={t('about.values_title')}>
+  <ul class="about-values">
+    <li>
+      <span class="about-values__icon gradient-text">◆</span>
+      <div>
+        <strong>{t('about.value_excellence')}</strong>
+        <p>{t('about.value_excellence_body')}</p>
+      </div>
+    </li>
+    <li>
+      <span class="about-values__icon gradient-text">◆</span>
+      <div>
+        <strong>{t('about.value_honesty')}</strong>
+        <p>{t('about.value_honesty_body')}</p>
+      </div>
+    </li>
+    <li>
+      <span class="about-values__icon gradient-text">◆</span>
+      <div>
+        <strong>{t('about.value_quality')}</strong>
+        <p>{t('about.value_quality_body')}</p>
+      </div>
+    </li>
+    <li>
+      <span class="about-values__icon gradient-text">◆</span>
+      <div>
+        <strong>{t('about.value_precision')}</strong>
+        <p>{t('about.value_precision_body')}</p>
+      </div>
+    </li>
+  </ul>
+</SectionBlock>
+
+<SectionBlock number="04" eyebrow={t('why.eyebrow')} title={t('why.title')} alt>
+  <div class="why-grid">
+    {
+      ([1, 2, 3, 4] as const).map((n) => (
+        <div class="why-item">
+          <h3 class="why-item__title">{t(`why.${n}.title` as 'why.1.title')}</h3>
+          <p class="why-item__body">{t(`why.${n}.body` as 'why.1.body')}</p>
+        </div>
+      ))
+    }
+  </div>
+  <div class="about-cta">
+    <Button href={whatsappHref(lang)} variant="solid" external>{t('cta.whatsapp')}</Button>
+  </div>
+</SectionBlock>
+
+<style>
+  .about-lead {
+    font-size: var(--step-1);
+    max-width: 60ch;
+  }
+
+  .about-mvv {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  @media (min-width: 50rem) {
+    .about-mvv {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+  .about-mvv__block h3 {
+    font-size: var(--step-1);
+    padding-bottom: var(--space-s);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-m);
+  }
+  .about-mvv__block p {
+    color: var(--fg-muted);
+    max-width: 44ch;
+  }
+
+  .about-values {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+  }
+  @media (min-width: 50rem) {
+    .about-values {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-l) var(--space-2xl);
+    }
+  }
+  .about-values li {
+    display: flex;
+    gap: var(--space-m);
+    align-items: start;
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--rule);
+  }
+  .about-values__icon {
+    font-size: var(--step-2);
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .about-values strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+  }
+  .about-values p {
+    color: var(--fg-muted);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-l) var(--space-m);
+  }
+  .why-item__title {
+    font-size: var(--step-1);
+    padding-bottom: var(--space-xs);
+    border-bottom: 2px solid transparent;
+    background: var(--gradient-brand) bottom/100% 2px no-repeat;
+    margin-bottom: var(--space-s);
+  }
+  .why-item__body {
+    color: var(--fg-muted);
+  }
+
+  .about-cta {
+    margin-top: var(--space-xl);
+  }
+</style>

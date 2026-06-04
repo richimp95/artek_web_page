@@ -1,0 +1,38 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('es');
+const title = `${t('contact.title')} — Artek`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Artek',
+  description: 'Impresión y acabado artístico premium en Guatemala',
+  url: 'https://richimp95.github.io/artek_web_page/',
+  telephone: '+50258250402',
+  email: 'artekguatemala@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '15 Avenida 16-14, Edificio Narama, Oficina 207',
+    addressLocality: 'Guatemala',
+    addressRegion: 'Guatemala',
+    addressCountry: 'GT',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 14.5812,
+    longitude: -90.5300,
+  },
+  sameAs: [
+    'https://www.facebook.com/artek.gt/',
+    'https://www.instagram.com/artek.gt/',
+  ],
+};
+---
+
+<PageLayout title={title} description={t('contact.lead')} routeKey="contact" jsonLd={jsonLd}>
+  <ContactSection />
+</PageLayout>

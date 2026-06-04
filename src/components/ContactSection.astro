@@ -1,0 +1,192 @@
+---
+import Icon from './Icon.astro';
+import SocialLinks from './SocialLinks.astro';
+import { useTranslations, contact, whatsappHref, defaultLang, type Lang } from '../i18n/ui';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+const wa = whatsappHref(lang);
+---
+
+<section class="contact-section">
+  <div class="container contact-section__inner">
+
+    <header class="contact-head">
+      <p class="eyebrow">{t('contact.eyebrow')}</p>
+      <h1 class="contact-title">{t('contact.title')}</h1>
+      <p class="contact-lead">{t('contact.lead')}</p>
+    </header>
+
+    <div class="contact-cards">
+
+      <a class="contact-card contact-card--primary" href={wa} target="_blank" rel="noopener">
+        <span class="contact-card__icon">
+          <Icon name="whatsapp" size={28} />
+        </span>
+        <div>
+          <p class="contact-card__label">WhatsApp</p>
+          <p class="contact-card__value">{contact.phoneDisplay}</p>
+        </div>
+        <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="contact-card" href={`mailto:${contact.email}`}>
+        <span class="contact-card__icon">
+          <Icon name="mail" size={26} />
+        </span>
+        <div>
+          <p class="contact-card__label">Email</p>
+          <p class="contact-card__value">{contact.email}</p>
+        </div>
+        <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="contact-card" href={contact.phoneHref}>
+        <span class="contact-card__icon">
+          <Icon name="phone" size={24} />
+        </span>
+        <div>
+          <p class="contact-card__label">{t('contact.phone_label')}</p>
+          <p class="contact-card__value">{contact.phoneDisplay}</p>
+        </div>
+        <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <div class="contact-card contact-card--address">
+        <div class="contact-card__addr-body">
+          <p class="contact-card__label">{t('contact.address_label')}</p>
+          <address class="contact-card__value">{contact.address}</address>
+        </div>
+        <SocialLinks lang={lang} />
+      </div>
+
+    </div>
+
+    <div class="contact-map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6493.927950886439!2d-90.53001510134092!3d14.581251528092421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8589a17838edb793%3A0x6c2fec627cdd65f9!2sARTEK%20Impresiones%20en%20Aluminio!5e0!3m2!1ses-419!2sgt!4v1688521847578!5m2!1ses-419!2sgt"
+        title="Artek en Google Maps"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .contact-head {
+    max-width: 44ch;
+    margin-bottom: var(--space-xl);
+  }
+  .contact-title {
+    margin-top: var(--space-2xs);
+  }
+  .contact-lead {
+    margin-top: var(--space-s);
+    color: var(--fg-muted);
+    font-size: var(--step-1);
+  }
+
+  .contact-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+    margin-bottom: var(--space-xl);
+  }
+  @media (min-width: 50rem) {
+    .contact-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-l);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition:
+      border-color var(--transition),
+      background var(--transition);
+  }
+  a.contact-card:hover {
+    border-color: var(--fg);
+    background: var(--bg-alt);
+  }
+  .contact-card--primary {
+    border-color: var(--brand);
+    background: color-mix(in srgb, var(--brand) 6%, var(--bg));
+  }
+  .contact-card--primary:hover {
+    background: color-mix(in srgb, var(--brand) 12%, var(--bg));
+    border-color: var(--brand-red);
+  }
+  .contact-card--address {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-m);
+    cursor: default;
+  }
+
+  .contact-card__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .contact-card--primary .contact-card__icon {
+    background: var(--gradient-brand);
+    color: #fff;
+  }
+
+  .contact-card__label {
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .contact-card__value {
+    font-size: var(--step-1);
+    font-style: normal;
+    margin-top: 0.25em;
+    color: var(--fg);
+  }
+  .contact-card__arrow {
+    margin-left: auto;
+    font-size: var(--step-2);
+    color: var(--fg-muted);
+    transition: transform var(--transition), color var(--transition);
+  }
+  a.contact-card:hover .contact-card__arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+  .contact-card__addr-body address {
+    font-size: var(--step-0);
+    max-width: 36ch;
+  }
+
+  .contact-map {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .contact-map iframe {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 40vw, 480px);
+    border: 0;
+  }
+</style>

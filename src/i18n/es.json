@@ -52,5 +52,30 @@
   "cta.whatsapp": "Escríbenos por WhatsApp",
   "cta.email": "Enviar un correo",
 
+  "about.eyebrow": "Estudio",
+  "about.title": "Quiénes somos",
+  "about.lead": "Artek es una empresa guatemalteca especializada en soluciones de impresión premium y acabado artístico. Trabajamos con materiales de alta gama y tecnologías avanzadas para crear piezas visuales sofisticadas para espacios residenciales, comerciales, hoteleros y artísticos.",
+  "about.mission_eyebrow": "Propósito",
+  "about.mission_title": "Misión y visión",
+  "about.vision_title": "Visión",
+  "about.mission_body": "Servir con lo más reciente en tecnología de impresión aplicada a la fotografía, decoración con artes digitales y promoción de productos, proporcionando a nuestros clientes opciones diferentes, a la medida de sus necesidades.",
+  "about.vision_body": "Ser el referente para la impresión fotográfica en materiales innovadores, distinguiéndonos por un trabajo personalizado de la mejor calidad para el mercado local y extranjero.",
+  "about.values_eyebrow": "Valores",
+  "about.values_title": "Lo que nos define",
+  "about.value_excellence": "Excelencia",
+  "about.value_excellence_body": "Cada pieza se produce con el mismo nivel de atención y cuidado, sin importar el formato o el presupuesto.",
+  "about.value_honesty": "Honestidad",
+  "about.value_honesty_body": "Asesoramos a nuestros clientes con transparencia, recomendando el material y la técnica que mejor se adapta a su proyecto.",
+  "about.value_quality": "Calidad",
+  "about.value_quality_body": "Utilizamos únicamente materiales de primera línea y equipos de última generación para garantizar resultados superiores.",
+  "about.value_precision": "Puntualidad",
+  "about.value_precision_body": "Respetamos los tiempos acordados porque sabemos que cada proyecto tiene una fecha y un espacio que lo esperan.",
+
+  "contact.eyebrow": "Contacto",
+  "contact.title": "Hablemos de tu proyecto",
+  "contact.lead": "Cuéntanos qué imaginas. Te asesoramos en materiales, formatos y acabados sin compromiso.",
+  "contact.phone_label": "Teléfono",
+  "contact.address_label": "Dirección",
+
   "footer.rights": "Todos los derechos reservados."
 }

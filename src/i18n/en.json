@@ -52,5 +52,30 @@
   "cta.whatsapp": "Message us on WhatsApp",
   "cta.email": "Send an email",
 
+  "about.eyebrow": "Studio",
+  "about.title": "Who we are",
+  "about.lead": "Artek is a Guatemalan company specializing in premium printing and art finishing solutions. We work with high-end materials and advanced technologies to create sophisticated visual pieces for residential, commercial, hospitality and artistic spaces.",
+  "about.mission_eyebrow": "Purpose",
+  "about.mission_title": "Mission & vision",
+  "about.vision_title": "Vision",
+  "about.mission_body": "To serve with the latest in printing technology applied to photography, digital art decoration and product promotion, providing our clients with different options tailored to their needs.",
+  "about.vision_body": "To be the benchmark for photographic printing on innovative materials, distinguished by personalized work of the highest quality for local and international markets.",
+  "about.values_eyebrow": "Values",
+  "about.values_title": "What defines us",
+  "about.value_excellence": "Excellence",
+  "about.value_excellence_body": "Every piece is produced with the same level of attention and care, regardless of format or budget.",
+  "about.value_honesty": "Honesty",
+  "about.value_honesty_body": "We advise our clients transparently, recommending the material and technique that best suits their project.",
+  "about.value_quality": "Quality",
+  "about.value_quality_body": "We use only top-tier materials and state-of-the-art equipment to guarantee superior results.",
+  "about.value_precision": "Punctuality",
+  "about.value_precision_body": "We respect agreed timelines because we know every project has a date and a space waiting for it.",
+
+  "contact.eyebrow": "Contact",
+  "contact.title": "Let's talk about your project",
+  "contact.lead": "Tell us what you envision. We'll advise you on materials, formats and finishes with no commitment.",
+  "contact.phone_label": "Phone",
+  "contact.address_label": "Address",
+
   "footer.rights": "All rights reserved."
 }

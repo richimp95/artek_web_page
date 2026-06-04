@@ -1,0 +1,12 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import ContactSection from '../../../components/ContactSection.astro';
+import { useTranslations } from '../../../i18n/ui';
+
+const t = useTranslations('en');
+const title = `${t('contact.title')} — Artek`;
+---
+
+<PageLayout title={title} description={t('contact.lead')} routeKey="contact">
+  <ContactSection />
+</PageLayout>
