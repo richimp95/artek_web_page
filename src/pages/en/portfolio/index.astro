@@ -1,0 +1,12 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PortfolioGallery from '../../../components/PortfolioGallery.astro';
+import { useTranslations } from '../../../i18n/ui';
+
+const t = useTranslations('en');
+const title = `${t('portfolio.title')} — Artek`;
+---
+
+<PageLayout title={title} description={t('portfolio.intro')} routeKey="portfolio">
+  <PortfolioGallery />
+</PageLayout>
