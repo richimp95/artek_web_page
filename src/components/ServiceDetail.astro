@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets';
+import Button from './Button.astro';
+import {
+  useTranslations,
+  getRoutePath,
+  whatsappHref,
+  type Lang,
+} from '../i18n/ui';
+import { services, type Service } from '../data/services';
+
+interface Props {
+  service: Service;
+  lang: Lang;
+}
+
+const { service, lang } = Astro.props;
+const t = useTranslations(lang);
+const servicesHref = getRoutePath(lang, 'services');
+const homeHref = getRoutePath(lang, 'home');
+const others = services.filter((s) => s.id !== service.id);
+---
+
+<article class="service-detail">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href={homeHref}>{t('breadcrumb.home')}</a>
+      <span aria-hidden="true">/</span>
+      <a href={servicesHref}>{t('nav.services')}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{service.title[lang]}</span>
+    </nav>
+
+    <header class="service-detail__head">
+      <div class="service-detail__intro">
+        <p class="eyebrow">{t('nav.services')}</p>
+        <h1>{service.title[lang]}</h1>
+        <p class="service-detail__desc">{service.description[lang]}</p>
+        <div class="service-detail__cta">
+          <Button href={whatsappHref(lang)} variant="solid" external>{t('services.detail_cta')}</Button>
+        </div>
+      </div>
+      <div class="service-detail__media">
+        <Image
+          src={service.image}
+          alt={service.title[lang]}
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 60rem) 100vw, 50vw"
+          loading="eager"
+        />
+      </div>
+    </header>
+
+    <section class="service-detail__benefits">
+      <h2 class="eyebrow">{t('services.benefits')}</h2>
+      <ul>
+        {service.benefits[lang].map((b) => <li>{b}</li>)}
+      </ul>
+    </section>
+
+    <section class="service-detail__others">
+      <h2 class="eyebrow">{t('services.others')}</h2>
+      <div class="service-detail__others-grid">
+        {
+          others.map((s) => (
+            <a class="other-link" href={`${servicesHref}${s.slug[lang]}/`}>
+              {s.title[lang]} <span aria-hidden="true">&rarr;</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</article>
+
+<style>
+  .service-detail {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    font-size: var(--step--1);
+    color: var(--color-stone);
+    margin-bottom: var(--space-xl);
+  }
+  .breadcrumb a:hover {
+    color: var(--accent-strong);
+  }
+  .breadcrumb [aria-current] {
+    color: var(--fg);
+  }
+
+  .service-detail__head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    align-items: center;
+  }
+  .service-detail__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+  .service-detail__desc {
+    font-size: var(--step-1);
+    color: var(--fg-muted);
+  }
+  .service-detail__cta {
+    margin-top: var(--space-2xs);
+  }
+  .service-detail__media :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .service-detail__benefits {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+  }
+  .service-detail__benefits ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-s) var(--space-l);
+  }
+  .service-detail__benefits li {
+    padding: var(--space-s) 0;
+    border-top: 1px solid var(--rule);
+    font-size: var(--step-1);
+    font-family: var(--font-display);
+  }
+
+  .service-detail__others {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--rule);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .service-detail__others-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-s) var(--space-l);
+  }
+  .other-link {
+    padding: var(--space-s) 0;
+    border-top: 1px solid var(--rule);
+    color: var(--fg-muted);
+    transition: color var(--transition);
+  }
+  .other-link:hover {
+    color: var(--accent-strong);
+  }
+
+  @media (min-width: 60rem) {
+    .service-detail__head {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-2xl);
+    }
+    .service-detail__benefits {
+      grid-template-columns: auto 1fr;
+      gap: var(--space-2xl);
+      align-items: start;
+    }
+  }
+</style>

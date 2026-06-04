@@ -11,31 +11,41 @@ interface Props {
   description: string;
   lang: Lang;
   routeKey: RouteKey;
+  /** Ruta base-relativa de ESTA página (para detalle con slug propio). */
+  path?: string;
+  /** Rutas base-relativas por idioma (hreflang) cuando los slugs difieren. */
+  alternates?: Record<Lang, string>;
   /** JSON-LD opcional (objeto schema.org) inyectado en <head>. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, lang, routeKey, jsonLd } = Astro.props;
+const { title, description, lang, routeKey, path, alternates, jsonLd } = Astro.props;
 
 const site = Astro.site ?? new URL('http://localhost');
 const base = import.meta.env.BASE_URL;
 const join = (...p: string[]) => `/${p.filter(Boolean).join('/')}/`.replace(/\/{2,}/g, '/');
+const langs: Lang[] = ['es', 'en'];
 
-const canonical = getAbsoluteUrl(site, lang, routeKey);
-const alternates: { lang: Lang; href: string }[] = [
-  { lang: 'es', href: getAbsoluteUrl(site, 'es', routeKey) },
-  { lang: 'en', href: getAbsoluteUrl(site, 'en', routeKey) },
-];
-const xDefault = getAbsoluteUrl(site, defaultLang, routeKey);
+const canonical = path ? new URL(path, site).href : getAbsoluteUrl(site, lang, routeKey);
+const altList = langs.map((l) => ({
+  lang: l,
+  href: alternates ? new URL(alternates[l], site).href : getAbsoluteUrl(site, l, routeKey),
+}));
+const xDefault = alternates
+  ? new URL(alternates[defaultLang], site).href
+  : getAbsoluteUrl(site, defaultLang, routeKey);
+
 const ogLocale = lang === 'es' ? 'es_GT' : 'en_US';
 const ogImage = new URL(join(base, 'og-image.jpg'), site).href;
-const faviconHref = join(base, 'favicon.svg');
+const faviconSvg = join(base, 'favicon.svg');
+const faviconPng = join(base, 'favicon.png');
+const appleTouch = join(base, 'apple-touch-icon.png');
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+{altList.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
 <link rel="alternate" hreflang="x-default" href={xDefault} />
 
 <!-- Open Graph / Twitter -->
@@ -48,13 +58,8 @@ const faviconHref = join(base, 'favicon.svg');
 <meta property="og:image" content={ogImage} />
 <meta name="twitter:card" content="summary_large_image" />
 
-<link rel="icon" href={faviconHref} type="image/svg+xml" />
+<link rel="icon" href={faviconSvg} type="image/svg+xml" />
+<link rel="icon" href={faviconPng} type="image/png" sizes="512x512" />
+<link rel="apple-touch-icon" href={appleTouch} />
 
-{
-  jsonLd && (
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(jsonLd)}
-    />
-  )
-}
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

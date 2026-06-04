@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import ServiceDetail from '../../components/ServiceDetail.astro';
+import { services, type Service } from '../../data/services';
+import { useTranslations, getRoutePath } from '../../i18n/ui';
+
+export const getStaticPaths = (() => {
+  return services.map((service) => ({
+    params: { slug: service.slug.es },
+    props: { service },
+  }));
+}) satisfies GetStaticPaths;
+
+const { service } = Astro.props as { service: Service };
+const lang = 'es' as const;
+const t = useTranslations(lang);
+
+const site = Astro.site ?? new URL('http://localhost');
+const esPath = `${getRoutePath('es', 'services')}${service.slug.es}/`;
+const enPath = `${getRoutePath('en', 'services')}${service.slug.en}/`;
+const abs = (p: string) => new URL(p, site).href;
+
+const title = `${service.title[lang]} — Artek`;
+const description = service.summary[lang];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title[lang],
+    description: service.summary[lang],
+    url: abs(esPath),
+    areaServed: 'GT',
+    provider: { '@type': 'Organization', name: 'Artek', url: abs(getRoutePath('es', 'home')) },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t('breadcrumb.home'), item: abs(getRoutePath('es', 'home')) },
+      { '@type': 'ListItem', position: 2, name: t('nav.services'), item: abs(getRoutePath('es', 'services')) },
+      { '@type': 'ListItem', position: 3, name: service.title[lang], item: abs(esPath) },
+    ],
+  },
+];
+---
+
+<PageLayout
+  title={title}
+  description={description}
+  routeKey="services"
+  path={esPath}
+  alternates={{ es: esPath, en: enPath }}
+  jsonLd={jsonLd}
+>
+  <ServiceDetail service={service} lang={lang} />
+</PageLayout>

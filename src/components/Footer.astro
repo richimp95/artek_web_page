@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import logoWhite from '../assets/logo-artek-white.png';
 import {
   getRoutePath,
   navItems,
@@ -24,7 +26,7 @@ const items = navItems
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
-      <p class="site-footer__name">Artek</p>
+      <Image src={logoWhite} alt="Artek" widths={[180, 360]} sizes="180px" loading="lazy" class="site-footer__logo" />
       <p class="site-footer__tag">{t('site.tagline')}</p>
     </div>
 
@@ -68,14 +70,13 @@ const items = navItems
     border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 18%, transparent);
   }
 
-  .site-footer__name {
-    font-family: var(--font-display);
-    font-size: var(--step-2);
-    letter-spacing: 0.04em;
+  .site-footer__logo {
+    height: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);
+    width: auto;
   }
   .site-footer__tag {
     color: var(--color-stone-light);
-    margin-top: var(--space-2xs);
+    margin-top: var(--space-s);
   }
 
   .site-footer__nav ul {

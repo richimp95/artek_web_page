@@ -8,14 +8,25 @@ interface Props {
   title: string;
   description: string;
   routeKey?: RouteKey;
+  /** Ruta base-relativa de esta página (para canonical de detalle). */
+  path?: string;
+  /** Rutas base-relativas por idioma (hreflang de detalle). */
+  alternates?: Record<Lang, string>;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, routeKey = 'home', jsonLd } = Astro.props;
+const { title, description, routeKey = 'home', path, alternates, jsonLd } = Astro.props;
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 ---
 
-<BaseLayout title={title} description={description} routeKey={routeKey} jsonLd={jsonLd}>
+<BaseLayout
+  title={title}
+  description={description}
+  routeKey={routeKey}
+  path={path}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
   <Header lang={lang} routeKey={routeKey} />
   <main>
     <slot />

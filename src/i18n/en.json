@@ -23,6 +23,11 @@
   "services.title": "What we do",
   "services.cta": "View all services",
   "services.more": "Learn more",
+  "services.intro": "We produce every piece to order, combining high-end materials with advanced printing technology. These are our services.",
+  "services.benefits": "Benefits",
+  "services.detail_cta": "Request a quote",
+  "services.others": "Other services",
+  "breadcrumb.home": "Home",
 
   "portfolio.eyebrow": "Portfolio",
   "portfolio.title": "Selected work",

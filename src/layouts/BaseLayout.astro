@@ -8,12 +8,13 @@ import { defaultLang, type Lang, type RouteKey } from '../i18n/ui';
 interface Props {
   title: string;
   description: string;
-  /** Sección actual, para canonical/hreflang y estado activo del nav. */
   routeKey?: RouteKey;
+  path?: string;
+  alternates?: Record<Lang, string>;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, routeKey = 'home', jsonLd } = Astro.props;
+const { title, description, routeKey = 'home', path, alternates, jsonLd } = Astro.props;
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 ---
 
@@ -22,7 +23,15 @@ const lang = (Astro.currentLocale ?? defaultLang) as Lang;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <SEO title={title} description={description} lang={lang} routeKey={routeKey} jsonLd={jsonLd} />
+    <SEO
+      title={title}
+      description={description}
+      lang={lang}
+      routeKey={routeKey}
+      path={path}
+      alternates={alternates}
+      jsonLd={jsonLd}
+    />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>

@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import SectionBlock from './SectionBlock.astro';
+import { services } from '../data/services';
+import { useTranslations, getRoutePath, defaultLang, type Lang } from '../i18n/ui';
+
+const lang = (Astro.currentLocale ?? defaultLang) as Lang;
+const t = useTranslations(lang);
+const servicesHref = getRoutePath(lang, 'services');
+---
+
+<SectionBlock eyebrow={t('services.eyebrow')} title={t('services.title')}>
+  <p class="services-index__intro">{t('services.intro')}</p>
+
+  <ul class="services-index__list">
+    {
+      services.map((service, i) => (
+        <li class="services-index__item">
+          <a class="services-index__link" href={`${servicesHref}${service.slug[lang]}/`}>
+            <span class="services-index__num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="services-index__media">
+              <Image
+                src={service.image}
+                alt={service.title[lang]}
+                widths={[300, 600, 900]}
+                sizes="(max-width: 50rem) 100vw, 33vw"
+                loading={i < 2 ? 'eager' : 'lazy'}
+              />
+            </div>
+            <div class="services-index__text">
+              <h2 class="services-index__title">{service.title[lang]}</h2>
+              <p class="services-index__summary">{service.summary[lang]}</p>
+              <span class="services-index__more">{t('services.more')} <span aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</SectionBlock>
+
+<style>
+  .services-index__intro {
+    font-size: var(--step-1);
+    max-width: 60ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .services-index__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .services-index__link {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--rule);
+    transition: border-color var(--transition);
+  }
+  .services-index__item:first-child .services-index__link {
+    border-top: none;
+    padding-top: 0;
+  }
+  .services-index__link:hover {
+    border-color: var(--fg);
+  }
+
+  .services-index__num {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    color: var(--accent-strong);
+  }
+
+  .services-index__media {
+    overflow: hidden;
+    background: var(--bg-alt);
+  }
+  .services-index__media :global(img) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .services-index__link:hover .services-index__media :global(img) {
+    transform: scale(1.04);
+  }
+
+  .services-index__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .services-index__title {
+    font-size: var(--step-2);
+  }
+  .services-index__summary {
+    color: var(--fg-muted);
+    max-width: 52ch;
+  }
+  .services-index__more {
+    margin-top: var(--space-2xs);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 50rem) {
+    .services-index__link {
+      grid-template-columns: 3rem 18rem 1fr;
+      gap: var(--space-l);
+      align-items: center;
+    }
+    .services-index__num {
+      align-self: start;
+    }
+  }
+</style>

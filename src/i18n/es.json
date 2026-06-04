@@ -23,6 +23,11 @@
   "services.title": "Lo que hacemos",
   "services.cta": "Ver todos los servicios",
   "services.more": "Conocer más",
+  "services.intro": "Producimos cada pieza a la medida, combinando materiales de alta gama con tecnología de impresión avanzada. Estos son nuestros servicios.",
+  "services.benefits": "Beneficios",
+  "services.detail_cta": "Cotizar este servicio",
+  "services.others": "Otros servicios",
+  "breadcrumb.home": "Inicio",
 
   "portfolio.eyebrow": "Portafolio",
   "portfolio.title": "Trabajos seleccionados",
