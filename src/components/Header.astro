@@ -71,9 +71,21 @@ const items = navItems.map((item) => ({
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(8px);
+    background: var(--bg);
     border-bottom: 1px solid var(--rule);
+  }
+
+  /*
+   * El blur frosted del header SOLO en desktop. En móvil un ancestro con
+   * backdrop-filter se vuelve el contenedor de los position:fixed hijos,
+   * lo que rompía la posición del menú (salía cortado y transparente).
+   */
+  @media (min-width: 52.0625rem) {
+    .site-header {
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
   }
 
   .site-header__inner {
