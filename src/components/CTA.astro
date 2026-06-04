@@ -21,9 +21,9 @@ const t = useTranslations(lang);
 
 <style>
   .cta {
-    background: var(--color-ink);
-    color: var(--color-bone);
-    padding-block: var(--space-2xl);
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: var(--space-xl);
   }
 
   .cta__inner {
@@ -38,7 +38,7 @@ const t = useTranslations(lang);
     max-width: 16ch;
   }
   .cta__body {
-    color: var(--color-stone-light);
+    color: var(--color-muted-light);
     margin-top: var(--space-s);
     max-width: 44ch;
   }
@@ -51,12 +51,12 @@ const t = useTranslations(lang);
 
   /* Botones sobre fondo oscuro: invertir outline */
   .cta :global(.btn--outline) {
-    color: var(--color-bone);
-    border-color: color-mix(in srgb, var(--color-bone) 50%, transparent);
+    color: var(--fg-on-dark);
+    border-color: color-mix(in srgb, var(--fg-on-dark) 50%, transparent);
   }
   .cta :global(.btn--outline:hover) {
-    background: var(--color-bone);
+    background: var(--fg-on-dark);
     color: var(--color-ink);
-    border-color: var(--color-bone);
+    border-color: var(--fg-on-dark);
   }
 </style>

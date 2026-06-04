@@ -32,8 +32,8 @@
   --accent-strong: var(--brand-red);
   --rule: var(--color-line);
 
-  /* --- Tipografía (fuentes de marca) --- */
-  --font-display: 'Anders', 'Arial Narrow', system-ui, sans-serif;
+  /* --- Tipografía (fuente de marca: Avant Garde para títulos y texto) --- */
+  --font-display: 'Avant Garde', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-sans: 'Avant Garde', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Escala fluida (clamp: min, preferido, max) */
