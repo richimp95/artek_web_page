@@ -19,6 +19,13 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Solo desde main (bloquea workflow_dispatch lanzado desde otra rama).
+    if: github.ref == 'refs/heads/main'
+    # Gate de producción: configurar en Settings → Environments un entorno
+    # "production" con required reviewers + deployment branch policy = main, y
+    # mover ahí los secrets FTP_*. Así un deploy manual exige aprobación humana.
+    environment:
+      name: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +45,8 @@ jobs:
           DEPLOY_TARGET: ftp
 
       - name: Deploy vía FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        # Pineado a SHA (supply-chain): maneja secrets de producción.
+        uses: SamKirkland/FTP-Deploy-Action@8e83cea8672e3fbcbb9fdafff34debf6ae4c5f65 # v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
