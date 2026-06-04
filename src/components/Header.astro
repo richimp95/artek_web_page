@@ -165,44 +165,69 @@ const items = navItems.map((item) => ({
     .site-header__toggle {
       display: inline-flex;
     }
+
     /*
-     * El overlay se saca del stacking context del header (que tiene backdrop-filter)
-     * usando position:fixed + z-index alto. Sin z-index explícito aquí el overlay
-     * quedaba atrapado dentro del contexto del header y aparecía mal.
+     * El overlay arranca en --hdr-h (alto real del header, puesto por JS).
+     * Así nunca tapa la barra superior y no hay conflicto de stacking context.
+     * El blur de backdrop-filter difumina el contenido de la página detrás.
      */
     .site-nav {
       position: fixed;
-      inset: 0;
+      top: var(--hdr-h, 4.5rem); /* debajo del header bar */
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 200;
+
+      /* Frosted glass */
+      background: rgba(251, 250, 248, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      /* Layout */
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      gap: var(--space-l);
-      background: var(--bg);
-      pointer-events: none;
+      justify-content: center;
+      gap: var(--space-xl);
+
+      /* Línea de marca en el borde superior */
+      border-top: 2px solid transparent;
+      border-image: var(--gradient-brand) 1;
+
+      /* Animación: fade + ligero desliz hacia abajo */
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-10px);
       transition:
-        opacity 240ms ease,
-        visibility 240ms ease;
+        opacity 260ms ease,
+        visibility 260ms ease,
+        transform 260ms ease;
     }
+
     .site-nav.is-open {
-      pointer-events: auto;
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
+
     .site-nav__list {
       flex-direction: column;
       align-items: center;
-      gap: var(--space-m);
+      gap: var(--space-l);
     }
+
     .site-nav__link {
       font-size: var(--step-2);
+      letter-spacing: 0.08em;
     }
+
     .site-nav__lang {
       margin-top: var(--space-s);
     }
-    /* Icono hamburguesa → X */
+
+    /* Hamburguesa → X */
     .site-header[data-open] .site-header__bars {
       background: transparent;
     }
@@ -212,20 +237,21 @@ const items = navItems.map((item) => ({
     .site-header[data-open] .site-header__bars::after {
       transform: translateY(-6px) rotate(-45deg);
     }
-    /* Toggle visible sobre el overlay cuando está abierto */
-    .site-header__toggle {
-      position: relative;
-      z-index: 201;
-    }
   }
 </style>
 
 <script>
-  // document.currentScript es null en ES modules (Astro bundlea como module).
-  // Seleccionamos directamente desde el documento.
-  const root = document.querySelector<HTMLElement>('.site-header');
+  const root   = document.querySelector<HTMLElement>('.site-header');
   const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const nav    = document.querySelector<HTMLElement>('[data-nav]');
+
+  // Mide el header y actualiza --hdr-h para que el overlay arranque justo debajo.
+  function setHeaderHeight() {
+    const h = root?.getBoundingClientRect().height ?? 0;
+    document.documentElement.style.setProperty('--hdr-h', `${h}px`);
+  }
+  setHeaderHeight();
+  window.addEventListener('resize', setHeaderHeight, { passive: true });
 
   function closeMenu() {
     nav?.classList.remove('is-open');
@@ -237,6 +263,7 @@ const items = navItems.map((item) => ({
   toggle?.addEventListener('click', () => {
     const opening = !nav?.classList.contains('is-open');
     if (opening) {
+      setHeaderHeight(); // recalcular por si cambió con el scroll
       nav?.classList.add('is-open');
       toggle.setAttribute('aria-expanded', 'true');
       root?.setAttribute('data-open', '');
@@ -246,11 +273,12 @@ const items = navItems.map((item) => ({
     }
   });
 
-  // Cerrar al navegar o al hacer resize a desktop
   nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 832) closeMenu(); // 52rem ≈ 832px
-  });
+    if (window.innerWidth > 832) closeMenu();
+  }, { passive: true });
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav?.classList.contains('is-open')) closeMenu();
   });
