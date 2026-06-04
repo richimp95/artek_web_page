@@ -24,6 +24,8 @@ const { title, description, lang, routeKey, path, alternates, jsonLd } = Astro.p
 const site = Astro.site ?? new URL('http://localhost');
 const base = import.meta.env.BASE_URL;
 const join = (...p: string[]) => `/${p.filter(Boolean).join('/')}/`.replace(/\/{2,}/g, '/');
+// Para archivos estáticos: SIN barra final (si no, el navegador pide "favicon.png/" → 404).
+const joinFile = (...p: string[]) => `/${p.filter(Boolean).join('/')}`.replace(/\/{2,}/g, '/');
 const langs: Lang[] = ['es', 'en'];
 
 const canonical = path ? new URL(path, site).href : getAbsoluteUrl(site, lang, routeKey);
@@ -36,10 +38,10 @@ const xDefault = alternates
   : getAbsoluteUrl(site, defaultLang, routeKey);
 
 const ogLocale = lang === 'es' ? 'es_GT' : 'en_US';
-const ogImage = new URL(join(base, 'og-image.jpg'), site).href;
-const faviconSvg = join(base, 'favicon.svg');
-const faviconPng = join(base, 'favicon.png');
-const appleTouch = join(base, 'apple-touch-icon.png');
+const ogImage = new URL(joinFile(base, 'og-image.jpg'), site).href;
+const favicon32 = joinFile(base, 'favicon-32.png');
+const favicon16 = joinFile(base, 'favicon-16.png');
+const appleTouch = joinFile(base, 'apple-touch-icon.png');
 ---
 
 <title>{title}</title>
@@ -58,8 +60,8 @@ const appleTouch = join(base, 'apple-touch-icon.png');
 <meta property="og:image" content={ogImage} />
 <meta name="twitter:card" content="summary_large_image" />
 
-<link rel="icon" href={faviconSvg} type="image/svg+xml" />
-<link rel="icon" href={faviconPng} type="image/png" sizes="512x512" />
+<link rel="icon" href={favicon32} type="image/png" sizes="32x32" />
+<link rel="icon" href={favicon16} type="image/png" sizes="16x16" />
 <link rel="apple-touch-icon" href={appleTouch} />
 
 {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
