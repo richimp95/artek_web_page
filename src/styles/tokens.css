@@ -1,38 +1,43 @@
 /* ============================================================
    Artek — Design Tokens
-   Dirección: Galería moderna · colores de marca (logo AK)
+   Dirección: DARK ATELIER (gallery-noir)
+   Las obras a color brillan sobre un muro casi negro.
    Gradiente de marca: #FA3543 (rojo) → #F99700 (naranja)
    ============================================================ */
 
 :root {
-  /* --- Color de marca (extraído del logo artexlogo-03) --- */
+  /* --- Color de marca (extraído del logo AK) --- */
   --brand-red: #fa3543;
   --brand-orange: #f99700;
   --brand: #f86720; /* punto medio del gradiente */
   --gradient-brand: linear-gradient(105deg, var(--brand-red) 0%, var(--brand-orange) 100%);
 
-  /* --- Neutros de galería --- */
-  --color-paper: #fbfaf8; /* muro de galería, blanco cálido */
-  --color-paper-2: #f1efea; /* superficie sutil */
-  --color-ink: #141312; /* texto / negro suave */
-  --color-ink-deep: #0d0d0e; /* secciones oscuras / footer */
-  --color-muted: #6c6862; /* texto secundario cálido */
-  --color-muted-light: #a8a39b;
-  --color-line: #e6e2db; /* líneas finas */
-  --color-line-dark: rgba(255, 255, 255, 0.14);
+  /* --- Muro de galería (carbón cálido, luz de galería) --- */
+  --color-void: #0b0907; /* el negro más profundo y cálido: footer, lightbox */
+  --color-ink-deep: #13100d; /* fondo base: carbón cálido */
+  --color-surface: #1c1813; /* superficie sutil / secciones alternas */
+  --color-surface-2: #251f18; /* tarjetas elevadas, hover */
+  --color-paper: #f4f1ec; /* "tinta": texto principal, blanco cálido */
+  --color-paper-dim: #cdc8c0; /* texto sobre acentos claros */
+  --color-muted: #ada69b; /* texto secundario — contraste ≥7:1 sobre el muro */
+  --color-muted-light: #8a8175; /* terciario / decorativo (≥4.5:1) */
+  --color-line: rgba(255, 247, 238, 0.11); /* líneas finas, cálidas, sobre oscuro */
+  --color-line-strong: rgba(255, 247, 238, 0.2);
 
   /* --- Semánticos --- */
-  --bg: var(--color-paper);
-  --bg-alt: var(--color-paper-2);
-  --bg-dark: var(--color-ink-deep);
-  --fg: var(--color-ink);
+  --bg: var(--color-ink-deep);
+  --bg-alt: var(--color-surface);
+  --bg-elevated: var(--color-surface-2);
+  --bg-dark: var(--color-void);
+  --fg: var(--color-paper);
   --fg-muted: var(--color-muted);
   --fg-on-dark: var(--color-paper);
+  --fg-on-accent: #1a0d06; /* texto oscuro sobre el gradiente naranja (contraste AA) */
   --accent: var(--brand);
-  --accent-strong: var(--brand-red);
+  --accent-strong: var(--brand-orange); /* el naranja lee mejor que el rojo sobre negro */
   --rule: var(--color-line);
 
-  /* --- Tipografía (fuente de marca: Avant Garde para títulos y texto) --- */
+  /* --- Tipografía (fuente de marca: Avant Garde) --- */
   --font-display: 'Avant Garde', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-sans: 'Avant Garde', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -42,8 +47,10 @@
   --step-1: clamp(1.2rem, 1.1rem + 0.6vw, 1.5rem);
   --step-2: clamp(1.5rem, 1.3rem + 1vw, 2.1rem);
   --step-3: clamp(2rem, 1.6rem + 2vw, 3.2rem);
-  --step-4: clamp(2.6rem, 1.9rem + 3.4vw, 4.8rem);
-  --step-5: clamp(3.2rem, 2rem + 6vw, 7rem);
+  --step-4: clamp(2.4rem, 1.8rem + 3vw, 4.4rem);
+  /* Techo de display ≤6rem (regla impeccable). Min más bajo: en móvil una
+     palabra larga en mayúsculas (IMÁGENES, PROYECTO) cabe sin partirse. */
+  --step-5: clamp(2.6rem, 1.7rem + 4.4vw, 6rem);
 
   --leading-tight: 1.02;
   --leading-snug: 1.18;
@@ -65,7 +72,17 @@
   --container-narrow: 48rem;
   --gutter: clamp(1.25rem, 4vw, 4rem);
 
-  /* --- Otros --- */
+  /* --- Forma --- */
   --radius: 3px;
-  --transition: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* --- Movimiento (Emil Kowalski: curvas fuertes, duraciones cortas) --- */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* entradas / feedback UI */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* movimiento en pantalla */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* paneles tipo iOS */
+  --ease-art: cubic-bezier(0.22, 1, 0.36, 1); /* curva editorial de la marca */
+  --dur-fast: 140ms; /* press feedback, hovers */
+  --dur: 220ms; /* dropdowns, transiciones base */
+  --dur-slow: 420ms; /* overlays, reveals */
+  --dur-image: 700ms; /* zoom lento de obra */
+  --transition: var(--dur) var(--ease-out); /* atajo heredado */
 }

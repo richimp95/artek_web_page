@@ -11,15 +11,15 @@ const wa = whatsappHref(lang);
 <section class="contact-section">
   <div class="container contact-section__inner">
 
-    <header class="contact-head">
-      <p class="eyebrow">{t('contact.eyebrow')}</p>
+    <header class="contact-head" data-reveal>
+      <span class="contact-head__mark" aria-hidden="true"></span>
       <h1 class="contact-title">{t('contact.title')}</h1>
       <p class="contact-lead">{t('contact.lead')}</p>
     </header>
 
-    <div class="contact-cards">
+    <div class="contact-cards" data-reveal-stagger="70">
 
-      <a class="contact-card contact-card--primary" href={wa} target="_blank" rel="noopener">
+      <a class="contact-card contact-card--primary" href={wa} target="_blank" rel="noopener" data-reveal>
         <span class="contact-card__icon">
           <Icon name="whatsapp" size={28} />
         </span>
@@ -30,7 +30,7 @@ const wa = whatsappHref(lang);
         <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
       </a>
 
-      <a class="contact-card" href={`mailto:${contact.email}`}>
+      <a class="contact-card" href={`mailto:${contact.email}`} data-reveal>
         <span class="contact-card__icon">
           <Icon name="mail" size={26} />
         </span>
@@ -41,7 +41,7 @@ const wa = whatsappHref(lang);
         <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
       </a>
 
-      <a class="contact-card" href={contact.phoneHref}>
+      <a class="contact-card" href={contact.phoneHref} data-reveal>
         <span class="contact-card__icon">
           <Icon name="phone" size={24} />
         </span>
@@ -52,7 +52,7 @@ const wa = whatsappHref(lang);
         <span class="contact-card__arrow" aria-hidden="true">&rarr;</span>
       </a>
 
-      <div class="contact-card contact-card--address">
+      <div class="contact-card contact-card--address" data-reveal>
         <div class="contact-card__addr-body">
           <p class="contact-card__label">{t('contact.address_label')}</p>
           <address class="contact-card__value">{contact.address}</address>
@@ -62,14 +62,28 @@ const wa = whatsappHref(lang);
 
     </div>
 
-    <div class="contact-map">
+    <div class="contact-map" data-reveal>
       <iframe
+        class="contact-map__frame"
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6493.927950886439!2d-90.53001510134092!3d14.581251528092421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8589a17838edb793%3A0x6c2fec627cdd65f9!2sARTEK%20Impresiones%20en%20Aluminio!5e0!3m2!1ses-419!2sgt!4v1688521847578!5m2!1ses-419!2sgt"
         title="Artek en Google Maps"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen
       ></iframe>
+      <div class="contact-map__overlay">
+        <span class="contact-map__label">{lang === 'es' ? 'Cómo llegar' : 'Get directions'}</span>
+        <span class="contact-map__addr">{contact.address}</span>
+        <a
+          class="contact-map__btn"
+          href="https://www.google.com/maps/dir/?api=1&destination=14.581252,-90.530015"
+          target="_blank"
+          rel="noopener"
+        >
+          {lang === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'}
+          <span class="contact-map__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
     </div>
 
   </div>
@@ -81,16 +95,24 @@ const wa = whatsappHref(lang);
   }
 
   .contact-head {
-    max-width: 44ch;
     margin-bottom: var(--space-xl);
   }
+  .contact-head__mark {
+    display: block;
+    width: 3rem;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--gradient-brand);
+    margin-bottom: var(--space-m);
+  }
   .contact-title {
-    margin-top: var(--space-2xs);
+    max-width: 18ch;
   }
   .contact-lead {
     margin-top: var(--space-s);
     color: var(--fg-muted);
     font-size: var(--step-1);
+    max-width: 44ch;
   }
 
   .contact-cards {
@@ -149,7 +171,7 @@ const wa = whatsappHref(lang);
   }
   .contact-card--primary .contact-card__icon {
     background: var(--gradient-brand);
-    color: #fff;
+    color: var(--fg-on-accent);
   }
 
   /* Permite que el bloque de texto se encoja por debajo del ancho de su
@@ -186,15 +208,84 @@ const wa = whatsappHref(lang);
     max-width: 36ch;
   }
 
+  /* Mapa real de Google "detrás del cristal": el iframe vive al fondo con un
+     filtro muy suave (sin invertir), y un degradado oscuro lo funde con el
+     muro. Encima flota un botón glass de indicaciones. */
   .contact-map {
+    position: relative;
     border-radius: var(--radius);
-    overflow: hidden;
     border: 1px solid var(--rule);
+    overflow: hidden;
+    background: var(--bg-alt);
   }
-  .contact-map iframe {
+  .contact-map__frame {
     display: block;
     width: 100%;
-    height: clamp(280px, 40vw, 480px);
+    height: clamp(300px, 42vw, 460px);
     border: 0;
+    /* Sin inversión: colores reales, solo un punto más sobrio para integrarse. */
+    filter: grayscale(0.12) brightness(0.9) contrast(1.03);
+  }
+
+  .contact-map__overlay {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    /* Degradado solo en el borde inferior: el mapa se ve, el texto se lee. */
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-void) 94%, transparent) 8%,
+      color-mix(in srgb, var(--color-void) 66%, transparent) 52%,
+      transparent
+    );
+    pointer-events: none; /* el mapa sigue siendo interactivo */
+  }
+  .contact-map__label {
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .contact-map__addr {
+    font-size: var(--step-0);
+    color: var(--fg);
+    max-width: 34ch;
+    text-shadow: 0 1px 10px var(--color-void);
+  }
+  .contact-map__btn {
+    pointer-events: auto; /* el botón sí recibe clics */
+    align-self: flex-start;
+    margin-top: var(--space-xs);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.7em 1.2em;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--color-void) 55%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--color-line-strong);
+    color: var(--fg);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    transition:
+      background var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out),
+      color var(--dur) var(--ease-out);
+  }
+  .contact-map__btn:hover {
+    border-color: var(--accent-strong);
+    color: var(--accent-strong);
+  }
+  .contact-map__arrow {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .contact-map__btn:hover .contact-map__arrow {
+    transform: translateX(5px);
   }
 </style>

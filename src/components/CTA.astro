@@ -8,11 +8,11 @@ const t = useTranslations(lang);
 
 <section class="cta">
   <div class="container cta__inner">
-    <div class="cta__text">
+    <div class="cta__text" data-reveal>
       <h2 class="cta__title">{t('cta.title')}</h2>
       <p class="cta__body">{t('cta.body')}</p>
     </div>
-    <div class="cta__actions">
+    <div class="cta__actions" data-reveal="right">
       <Button href={whatsappHref(lang)} variant="solid" external>{t('cta.whatsapp')}</Button>
       <Button href={`mailto:${contact.email}`} variant="outline">{t('cta.email')}</Button>
     </div>
@@ -21,9 +21,23 @@ const t = useTranslations(lang);
 
 <style>
   .cta {
+    position: relative;
     background: var(--bg-dark);
     color: var(--fg-on-dark);
     padding-block: var(--space-xl);
+    /* halo cálido sutil tras el título */
+    background-image: radial-gradient(
+      80% 140% at 0% 0%,
+      color-mix(in srgb, var(--brand) 12%, transparent),
+      transparent 60%
+    );
+  }
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--gradient-brand);
   }
 
   .cta__inner {
@@ -56,7 +70,7 @@ const t = useTranslations(lang);
   }
   .cta :global(.btn--outline:hover) {
     background: var(--fg-on-dark);
-    color: var(--color-ink);
+    color: var(--color-void);
     border-color: var(--fg-on-dark);
   }
 </style>

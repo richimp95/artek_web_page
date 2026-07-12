@@ -14,48 +14,48 @@ const values = [
 ] as const;
 ---
 
-<SectionBlock number="01" eyebrow={t('about.eyebrow')} title={t('about.title')}>
-  <p class="about-lead">{t('about.lead')}</p>
+<SectionBlock eyebrow={t('about.eyebrow')} title={t('about.title')}>
+  <p class="about-lead" data-reveal>{t('about.lead')}</p>
 </SectionBlock>
 
-<SectionBlock number="02" eyebrow={t('about.mission_eyebrow')} title={t('about.mission_title')} alt>
-  <div class="about-mvv">
-    <div class="about-mvv__block">
+<SectionBlock title={t('about.mission_title')} alt>
+  <div class="about-mvv" data-reveal-stagger="90">
+    <div class="about-mvv__block" data-reveal>
       <h3>{t('about.mission_title')}</h3>
       <p>{t('about.mission_body')}</p>
     </div>
-    <div class="about-mvv__block">
+    <div class="about-mvv__block" data-reveal>
       <h3>{t('about.vision_title')}</h3>
       <p>{t('about.vision_body')}</p>
     </div>
   </div>
 </SectionBlock>
 
-<SectionBlock number="03" eyebrow={t('about.values_eyebrow')} title={t('about.values_title')}>
-  <ul class="about-values">
-    <li>
-      <span class="about-values__icon gradient-text">◆</span>
+<SectionBlock title={t('about.values_title')}>
+  <ul class="about-values" data-reveal-stagger="70">
+    <li data-reveal>
+      <span class="about-values__icon" aria-hidden="true">◆</span>
       <div>
         <strong>{t('about.value_excellence')}</strong>
         <p>{t('about.value_excellence_body')}</p>
       </div>
     </li>
-    <li>
-      <span class="about-values__icon gradient-text">◆</span>
+    <li data-reveal>
+      <span class="about-values__icon" aria-hidden="true">◆</span>
       <div>
         <strong>{t('about.value_honesty')}</strong>
         <p>{t('about.value_honesty_body')}</p>
       </div>
     </li>
-    <li>
-      <span class="about-values__icon gradient-text">◆</span>
+    <li data-reveal>
+      <span class="about-values__icon" aria-hidden="true">◆</span>
       <div>
         <strong>{t('about.value_quality')}</strong>
         <p>{t('about.value_quality_body')}</p>
       </div>
     </li>
-    <li>
-      <span class="about-values__icon gradient-text">◆</span>
+    <li data-reveal>
+      <span class="about-values__icon" aria-hidden="true">◆</span>
       <div>
         <strong>{t('about.value_precision')}</strong>
         <p>{t('about.value_precision_body')}</p>
@@ -64,18 +64,18 @@ const values = [
   </ul>
 </SectionBlock>
 
-<SectionBlock number="04" eyebrow={t('why.eyebrow')} title={t('why.title')} alt>
-  <div class="why-grid">
+<SectionBlock title={t('why.title')} alt>
+  <div class="why-grid" data-reveal-stagger="70">
     {
       ([1, 2, 3, 4] as const).map((n) => (
-        <div class="why-item">
+        <div class="why-item" data-reveal>
           <h3 class="why-item__title">{t(`why.${n}.title` as 'why.1.title')}</h3>
           <p class="why-item__body">{t(`why.${n}.body` as 'why.1.body')}</p>
         </div>
       ))
     }
   </div>
-  <div class="about-cta">
+  <div class="about-cta" data-reveal>
     <Button href={whatsappHref(lang)} variant="solid" external>{t('cta.whatsapp')}</Button>
   </div>
 </SectionBlock>
@@ -129,9 +129,11 @@ const values = [
     border-top: 1px solid var(--rule);
   }
   .about-values__icon {
-    font-size: var(--step-2);
+    font-size: var(--step-1);
     flex-shrink: 0;
     line-height: 1;
+    color: var(--accent-strong);
+    margin-top: 0.15em;
   }
   .about-values strong {
     display: block;

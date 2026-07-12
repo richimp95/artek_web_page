@@ -8,10 +8,10 @@ import Button from './Button.astro';
 import { services } from '../data/services';
 import { useTranslations, getRoutePath, defaultLang, type Lang } from '../i18n/ui';
 
-import imgGlobos from '../assets/portfolio/globos-madera.jpg';
-import imgFamilia from '../assets/portfolio/familia-aluminio.jpg';
-import imgMuro from '../assets/portfolio/muro-galeria.jpg';
-import imgColeccion from '../assets/portfolio/coleccion.jpg';
+import imgMuro from '../assets/catalogo/opciones-de-montaje-para-exposicion/back-de-madera-con-impresion-de-aluminio-alzada.webp';
+import imgFamilia from '../assets/catalogo/chromaluxe/semi-gloss.webp';
+import imgGlobos from '../assets/catalogo/impresion-de-invitaciones/invitaciones-para-fiestas.webp';
+import imgColeccion from '../assets/catalogo/aluminio-estandar-delgado-para-productos-institucionales-y-placas-delgadas-impresas/placas-para-reconocimientos.webp';
 
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 const t = useTranslations(lang);
@@ -22,33 +22,36 @@ const portfolioHref = getRoutePath(lang, 'portfolio');
 const why = [1, 2, 3, 4] as const;
 
 const featured = [
-  { img: imgMuro, alt: lang === 'es' ? 'Muro con múltiples impresiones' : 'Wall with multiple prints' },
-  { img: imgFamilia, alt: lang === 'es' ? 'Retrato familiar sobre aluminio' : 'Family portrait on aluminum' },
-  { img: imgGlobos, alt: lang === 'es' ? 'Impresión de globos aerostáticos' : 'Hot-air balloons print' },
-  { img: imgColeccion, alt: lang === 'es' ? 'Colección de piezas impresas' : 'Collection of printed pieces' },
+  { img: imgMuro, alt: lang === 'es' ? 'Back de madera con impresión en aluminio alzada' : 'Wood backing with raised aluminum print' },
+  { img: imgFamilia, alt: lang === 'es' ? 'Impresión Chromaluxe acabado semi-gloss' : 'Chromaluxe print, semi-gloss finish' },
+  { img: imgGlobos, alt: lang === 'es' ? 'Invitaciones impresas para fiestas' : 'Printed party invitations' },
+  { img: imgColeccion, alt: lang === 'es' ? 'Placas de aluminio para reconocimientos' : 'Aluminum recognition plaques' },
 ];
 ---
 
 <Hero />
 
-<SectionBlock number="01" eyebrow={t('intro.eyebrow')} title={t('intro.title')}>
-  <p class="intro-body">{t('intro.body')}</p>
+<SectionBlock eyebrow={t('intro.eyebrow')} title={t('intro.title')}>
+  <p class="intro-body" data-reveal>{t('intro.body')}</p>
 </SectionBlock>
 
-<SectionBlock number="02" eyebrow={t('services.eyebrow')} title={t('services.title')} alt>
-  <div class="services-grid">
+<SectionBlock title={t('services.title')} alt>
+  <div class="services-grid" data-reveal-stagger="80">
     {services.map((service, i) => <ServiceCard service={service} lang={lang} index={i} />)}
   </div>
-  <div class="section-cta">
+  <div class="section-cta" data-reveal>
     <Button href={servicesHref} variant="ghost">{t('services.cta')}</Button>
   </div>
 </SectionBlock>
 
-<SectionBlock number="03" eyebrow={t('portfolio.eyebrow')} title={t('portfolio.title')}>
-  <div class="portfolio-grid">
+<SectionBlock title={t('portfolio.title')}>
+  <div class="portfolio-grid" data-reveal-stagger="90">
     {
       featured.map((item, i) => (
-        <figure class:list={['portfolio-item', { 'portfolio-item--wide': i === 0 }]}>
+        <figure
+          class:list={['portfolio-item', { 'portfolio-item--wide': i === 0 }]}
+          data-reveal="scale"
+        >
           <Image
             src={item.img}
             alt={item.alt}
@@ -60,16 +63,16 @@ const featured = [
       ))
     }
   </div>
-  <div class="section-cta">
+  <div class="section-cta" data-reveal>
     <Button href={portfolioHref} variant="ghost">{t('portfolio.cta')}</Button>
   </div>
 </SectionBlock>
 
-<SectionBlock number="04" eyebrow={t('why.eyebrow')} title={t('why.title')} alt>
-  <div class="why-grid">
+<SectionBlock title={t('why.title')} alt>
+  <div class="why-grid" data-reveal-stagger="70">
     {
       why.map((n) => (
-        <div class="why-item">
+        <div class="why-item" data-reveal>
           <h3 class="why-item__title">{t(`why.${n}.title` as 'why.1.title')}</h3>
           <p class="why-item__body">{t(`why.${n}.body` as 'why.1.body')}</p>
         </div>

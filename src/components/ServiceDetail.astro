@@ -32,7 +32,7 @@ const others = services.filter((s) => s.id !== service.id);
     </nav>
 
     <header class="service-detail__head">
-      <div class="service-detail__intro">
+      <div class="service-detail__intro" data-reveal>
         <p class="eyebrow">{t('nav.services')}</p>
         <h1>{service.title[lang]}</h1>
         <p class="service-detail__desc">{service.description[lang]}</p>
@@ -40,7 +40,7 @@ const others = services.filter((s) => s.id !== service.id);
           <Button href={whatsappHref(lang)} variant="solid" external>{t('services.detail_cta')}</Button>
         </div>
       </div>
-      <div class="service-detail__media">
+      <div class="service-detail__media" data-reveal="scale">
         <Image
           src={service.image}
           alt={service.title[lang]}
@@ -52,19 +52,19 @@ const others = services.filter((s) => s.id !== service.id);
     </header>
 
     <section class="service-detail__benefits">
-      <h2 class="eyebrow">{t('services.benefits')}</h2>
-      <ul>
-        {service.benefits[lang].map((b) => <li>{b}</li>)}
+      <h2 class="eyebrow" data-reveal>{t('services.benefits')}</h2>
+      <ul data-reveal-stagger="60">
+        {service.benefits[lang].map((b) => <li data-reveal>{b}</li>)}
       </ul>
     </section>
 
     <section class="service-detail__others">
-      <h2 class="eyebrow">{t('services.others')}</h2>
-      <div class="service-detail__others-grid">
+      <h2 class="eyebrow" data-reveal>{t('services.others')}</h2>
+      <div class="service-detail__others-grid" data-reveal-stagger="60">
         {
           others.map((s) => (
-            <a class="other-link" href={`${servicesHref}${s.slug[lang]}/`}>
-              {s.title[lang]} <span aria-hidden="true">&rarr;</span>
+            <a class="other-link" href={`${servicesHref}${s.slug[lang]}/`} data-reveal>
+              {s.title[lang]} <span class="other-link__arrow" aria-hidden="true">&rarr;</span>
             </a>
           ))
         }
@@ -154,10 +154,20 @@ const others = services.filter((s) => s.id !== service.id);
     padding: var(--space-s) 0;
     border-top: 1px solid var(--rule);
     color: var(--fg-muted);
-    transition: color var(--transition);
+    transition:
+      color var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
   }
   .other-link:hover {
     color: var(--accent-strong);
+    border-top-color: var(--accent-strong);
+  }
+  .other-link__arrow {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease-out);
+  }
+  .other-link:hover .other-link__arrow {
+    transform: translateX(5px);
   }
 
   @media (min-width: 60rem) {

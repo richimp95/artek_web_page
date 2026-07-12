@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import LangSwitcher from './LangSwitcher.astro';
-import logo from '../assets/logo-artek.png';
+import logo from '../assets/logo-artek-white.png';
 import {
   getRoutePath,
   navItems,
@@ -72,7 +72,13 @@ const items = navItems.map((item) => ({
     top: 0;
     z-index: 50;
     background: var(--bg);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--dur) var(--ease-out),
+      background var(--dur) var(--ease-out);
+  }
+  .site-header.is-scrolled {
+    border-bottom-color: var(--rule);
   }
 
   /*
@@ -81,10 +87,10 @@ const items = navItems.map((item) => ({
    * lo que rompía la posición del menú (salía cortado y transparente).
    */
   @media (min-width: 52.0625rem) {
-    .site-header {
-      background: color-mix(in srgb, var(--bg) 85%, transparent);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .site-header.is-scrolled {
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: blur(12px) saturate(1.2);
+      -webkit-backdrop-filter: blur(12px) saturate(1.2);
     }
   }
 
@@ -191,16 +197,20 @@ const items = navItems.map((item) => ({
       bottom: 0;
       z-index: 200;
 
-      /* Frosted glass */
-      background: rgba(251, 250, 248, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      /* Frosted glass oscuro */
+      background: color-mix(in srgb, var(--color-void) 88%, transparent);
+      backdrop-filter: blur(22px) saturate(1.1);
+      -webkit-backdrop-filter: blur(22px) saturate(1.1);
 
-      /* Layout */
+      /* Layout: alineado arriba y desplazable para que el selector de idioma
+         nunca choque ni se corte en pantallas cortas. */
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: var(--space-xl);
+      justify-content: flex-start;
+      gap: var(--space-l);
+      padding-block: var(--space-xl) var(--space-l);
+      overflow-y: auto;
+      overscroll-behavior: contain;
 
       /* Línea de marca en el borde superior */
       border-top: 2px solid transparent;
@@ -253,45 +263,71 @@ const items = navItems.map((item) => ({
 </style>
 
 <script>
-  const root   = document.querySelector<HTMLElement>('.site-header');
-  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-  const nav    = document.querySelector<HTMLElement>('[data-nav]');
+  // Re-vinculamos en cada navegación (View Transitions reemplaza el DOM).
+  // Los listeners globales (window/document) se registran una sola vez.
+  let globalsBound = false;
 
-  // Mide el header y actualiza --hdr-h para que el overlay arranque justo debajo.
-  function setHeaderHeight() {
-    const h = root?.getBoundingClientRect().height ?? 0;
-    document.documentElement.style.setProperty('--hdr-h', `${h}px`);
-  }
-  setHeaderHeight();
-  window.addEventListener('resize', setHeaderHeight, { passive: true });
+  function initHeader() {
+    const root = document.querySelector<HTMLElement>('.site-header');
+    const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+    const nav = document.querySelector<HTMLElement>('[data-nav]');
+    if (!root || !toggle || !nav) return;
 
-  function closeMenu() {
-    nav?.classList.remove('is-open');
-    toggle?.setAttribute('aria-expanded', 'false');
-    root?.removeAttribute('data-open');
-    document.body.style.overflow = '';
-  }
+    const setHeaderHeight = () => {
+      const h = root.getBoundingClientRect().height ?? 0;
+      document.documentElement.style.setProperty('--hdr-h', `${h}px`);
+    };
+    setHeaderHeight();
 
-  toggle?.addEventListener('click', () => {
-    const opening = !nav?.classList.contains('is-open');
-    if (opening) {
-      setHeaderHeight(); // recalcular por si cambió con el scroll
-      nav?.classList.add('is-open');
-      toggle.setAttribute('aria-expanded', 'true');
-      root?.setAttribute('data-open', '');
-      document.body.style.overflow = 'hidden';
-    } else {
-      closeMenu();
+    const closeMenu = () => {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      root.removeAttribute('data-open');
+      document.body.style.overflow = '';
+    };
+
+    toggle.addEventListener('click', () => {
+      const opening = !nav.classList.contains('is-open');
+      if (opening) {
+        setHeaderHeight();
+        nav.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        root.setAttribute('data-open', '');
+        document.body.style.overflow = 'hidden';
+      } else {
+        closeMenu();
+      }
+    });
+
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+    // Sombra/condensado del header al hacer scroll.
+    const onScroll = () => root.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+
+    if (!globalsBound) {
+      globalsBound = true;
+      window.addEventListener('resize', () => {
+        document.querySelector<HTMLElement>('.site-header') && setHeaderHeight();
+        if (window.innerWidth > 832) {
+          document.querySelector<HTMLElement>('[data-nav]')?.classList.remove('is-open');
+        }
+      }, { passive: true });
+      window.addEventListener('scroll', () => {
+        const h = document.querySelector<HTMLElement>('.site-header');
+        h?.classList.toggle('is-scrolled', window.scrollY > 8);
+      }, { passive: true });
+      document.addEventListener('keydown', (e) => {
+        const n = document.querySelector<HTMLElement>('[data-nav]');
+        if (e.key === 'Escape' && n?.classList.contains('is-open')) {
+          n.classList.remove('is-open');
+          document.querySelector<HTMLButtonElement>('[data-nav-toggle]')?.setAttribute('aria-expanded', 'false');
+          document.querySelector<HTMLElement>('.site-header')?.removeAttribute('data-open');
+          document.body.style.overflow = '';
+        }
+      });
     }
-  });
+  }
 
-  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 832) closeMenu();
-  }, { passive: true });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav?.classList.contains('is-open')) closeMenu();
-  });
+  document.addEventListener('astro:page-load', initHeader);
 </script>

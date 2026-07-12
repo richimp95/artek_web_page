@@ -8,17 +8,15 @@ interface Props {
   index: number;
 }
 
-const { service, lang, index } = Astro.props;
+const { service, lang } = Astro.props;
 const t = useTranslations(lang);
 const href = `${getRoutePath(lang, 'services')}${service.slug[lang]}/`;
-const num = String(index + 1).padStart(2, '0');
 ---
 
-<a class="service-card" href={href}>
-  <span class="service-card__num">{num}</span>
+<a class="service-card" href={href} data-reveal>
   <h3 class="service-card__title">{service.title[lang]}</h3>
   <p class="service-card__summary">{service.summary[lang]}</p>
-  <span class="service-card__more">{t('services.more')} <span aria-hidden="true">&rarr;</span></span>
+  <span class="service-card__more">{t('services.more')} <span class="service-card__arrow" aria-hidden="true">&rarr;</span></span>
 </a>
 
 <style>
@@ -28,21 +26,23 @@ const num = String(index + 1).padStart(2, '0');
     gap: var(--space-xs);
     padding: var(--space-m) 0;
     border-top: 1px solid var(--rule);
-    transition: border-color var(--transition);
+    transition:
+      border-color var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
   }
-  .service-card:hover {
-    border-color: var(--fg);
-  }
-
-  .service-card__num {
-    font-family: var(--font-display);
-    font-size: var(--step--1);
-    color: var(--accent-strong);
-    font-feature-settings: 'tnum';
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover {
+      border-top-color: var(--accent-strong);
+      transform: translateX(6px);
+    }
   }
 
   .service-card__title {
     font-size: var(--step-2);
+    transition: color var(--dur) var(--ease-out);
+  }
+  .service-card:hover .service-card__title {
+    color: var(--accent-strong);
   }
 
   .service-card__summary {
@@ -57,9 +57,16 @@ const num = String(index + 1).padStart(2, '0');
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
     color: var(--fg);
-    transition: color var(--transition);
+    transition: color var(--dur) var(--ease-out);
+  }
+  .service-card__arrow {
+    display: inline-block;
+    transition: transform var(--dur) var(--ease-out);
   }
   .service-card:hover .service-card__more {
     color: var(--accent-strong);
+  }
+  .service-card:hover .service-card__arrow {
+    transform: translateX(5px);
   }
 </style>

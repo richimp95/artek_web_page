@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
 // Despliegue dual según el entorno (lo fija cada workflow con DEPLOY_TARGET):
 //  - 'pages' → GitHub Pages (staging), sirve bajo /artek_web_page/
@@ -23,5 +25,15 @@ export default defineConfig({
       prefixDefaultLocale: false, // ES en la raíz, EN bajo /en/
     },
   },
-  integrations: [sitemap()],
+  integrations: [react(), sitemap()],
+  vite: {
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      noDiscovery: true,
+      include: [],
+    },
+  },
+  // La barra de herramientas de dev se solapaba con el menú móvil al revisar.
+  // No afecta a producción (es solo de desarrollo); la apagamos.
+  devToolbar: { enabled: false },
 });
