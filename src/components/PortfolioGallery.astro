@@ -225,6 +225,10 @@ const galleryImages: ImageGalleryItem[] = await Promise.all(
     background: transparent;
     cursor: zoom-in;
   }
+  .gallery-island :global(.portfolio-island__button:focus-visible) {
+    outline: 2px solid var(--brand-orange);
+    outline-offset: -3px;
+  }
   .gallery-island :global(.portfolio-island__image) {
     filter: brightness(0.9) saturate(0.98);
     transition:
@@ -247,12 +251,27 @@ const galleryImages: ImageGalleryItem[] = await Promise.all(
     inset-inline: 0;
     bottom: 0;
     pointer-events: none;
-    padding: 2rem 0.75rem 0.5rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    padding: 2.25rem 0.85rem 0.65rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.46) 58%, transparent);
     color: rgba(255, 255, 255, 0.85);
     font-size: 0.75rem;
     line-height: 1.35;
     text-align: left;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-island :global(.portfolio-island__item:hover .portfolio-island__caption) {
+      opacity: 1;
+    }
+  }
+  .gallery-island :global(.portfolio-island__button:focus-visible + .portfolio-island__caption) {
+    opacity: 1;
+  }
+  @media (hover: none) {
+    .gallery-island :global(.portfolio-island__caption) {
+      opacity: 1;
+    }
   }
 
   /* --- Lightbox --- */

@@ -15,15 +15,19 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images }: ImageGalleryProps) {
-  const singleColumn = [images];
-  const twoColumns = distribute(images, 2);
-  const threeColumns = distribute(images, 3);
+  const columns = React.useMemo(() => distribute(images, 3), [images]);
 
   return (
     <div className="portfolio-island tw:relative tw:w-full tw:py-10">
-      <GalleryColumns columns={singleColumn} className="tw:grid tw:sm:hidden" />
-      <GalleryColumns columns={twoColumns} className="tw:hidden tw:sm:grid tw:sm:grid-cols-2 tw:lg:hidden" />
-      <GalleryColumns columns={threeColumns} className="tw:hidden tw:lg:grid tw:lg:grid-cols-3" />
+      <div className="tw:mx-auto tw:grid tw:w-full tw:max-w-5xl tw:gap-6 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
+        {columns.map((column, col) => (
+          <div key={col} className="tw:grid tw:gap-6">
+            {column.map((image) => (
+              <AnimatedImage key={image.src} image={image} />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -39,25 +43,6 @@ function distribute(images: ImageGalleryItem[], columnCount: number) {
   }
 
   return columns;
-}
-
-interface GalleryColumnsProps {
-  columns: ImageGalleryItem[][];
-  className: string;
-}
-
-function GalleryColumns({ columns, className }: GalleryColumnsProps) {
-  return (
-    <div className={cn('tw:mx-auto tw:w-full tw:max-w-5xl tw:gap-4', className)}>
-      {columns.map((column, col) => (
-        <div key={col} className="tw:grid tw:content-start tw:gap-4">
-          {column.map((image) => (
-            <AnimatedImage key={image.src} image={image} />
-          ))}
-        </div>
-      ))}
-    </div>
-  );
 }
 
 interface AnimatedImageProps {
