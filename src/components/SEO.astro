@@ -38,10 +38,12 @@ const xDefault = alternates
   : getAbsoluteUrl(site, defaultLang, routeKey);
 
 const ogLocale = lang === 'es' ? 'es_GT' : 'en_US';
-const ogImage = new URL(joinFile(base, 'og-image.jpg'), site).href;
-const favicon32 = joinFile(base, 'favicon-32.png');
-const favicon16 = joinFile(base, 'favicon-16.png');
-const appleTouch = joinFile(base, 'apple-touch-icon.png');
+const assetVersion = '2';
+const versioned = (filePath: string) => `${filePath}?v=${assetVersion}`;
+const ogImage = new URL(versioned(joinFile(base, 'og-image.jpg')), site).href;
+const favicon32 = versioned(joinFile(base, 'favicon-32.png'));
+const favicon16 = versioned(joinFile(base, 'favicon-16.png'));
+const appleTouch = versioned(joinFile(base, 'apple-touch-icon.png'));
 ---
 
 <title>{title}</title>
