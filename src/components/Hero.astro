@@ -1,4 +1,6 @@
 ---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Button from './Button.astro';
 import { CardCarousel } from './ui/card-carousel';
 import aluminioAcabados from '../assets/catalogo/aluminios-estandar/aluminio-estandar-plateado-dorado-y-color-cobre.webp';
@@ -24,96 +26,106 @@ import {
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 const t = useTranslations(lang);
 const portfolioHref = getRoutePath(lang, 'portfolio');
-const carouselSources: { src: string; alt: Record<Lang, string> }[] = [
+const carouselSources: { image: ImageMetadata; alt: Record<Lang, string> }[] = [
   {
-    src: aluminioAcabados.src,
+    image: aluminioAcabados,
     alt: {
       es: 'Aluminio estándar plateado, dorado y color cobre impreso por Artek',
       en: 'Standard silver, gold and copper aluminum printed by Artek',
     },
   },
   {
-    src: aluminioOctogonal.src,
+    image: aluminioOctogonal,
     alt: {
       es: 'Impresiones octogonales en aluminio estándar',
       en: 'Octagonal prints on standard aluminum',
     },
   },
   {
-    src: chromaluxeBoard.src,
+    image: chromaluxeBoard,
     alt: {
       es: 'Board completo de aluminio ChromaLuxe con acabados premium',
       en: 'Complete ChromaLuxe aluminum board with premium finishes',
     },
   },
   {
-    src: chromaluxeTexturizado.src,
+    image: chromaluxeTexturizado,
     alt: {
       es: 'Impresión sobre aluminio ChromaLuxe texturizado',
       en: 'Print on textured ChromaLuxe aluminum',
     },
   },
   {
-    src: acrilicoBlock.src,
+    image: acrilicoBlock,
     alt: {
       es: 'Impresión acrílica de 4 mm de espesor en formato 10 por 10 pulgadas',
       en: '4 mm acrylic print in 10 by 10 inch format',
     },
   },
   {
-    src: acrilicoRedondo.src,
+    image: acrilicoRedondo,
     alt: {
       es: 'Impresión acrílica redonda para reconocimientos',
       en: 'Round acrylic print for awards',
     },
   },
   {
-    src: invitacionesAluminio.src,
+    image: invitacionesAluminio,
     alt: {
       es: 'Invitaciones impresas en aluminio de cualquier tamaño',
       en: 'Invitations printed on aluminum in custom sizes',
     },
   },
   {
-    src: menusAluminio.src,
+    image: menusAluminio,
     alt: {
       es: 'Menús impresos en aluminio para eventos',
       en: 'Menus printed on aluminum for events',
     },
   },
   {
-    src: montajeSeparadores.src,
+    image: montajeSeparadores,
     alt: {
       es: 'Montaje con separadores de vidrio para exposición',
       en: 'Glass standoff mounting for display',
     },
   },
   {
-    src: montajePata.src,
+    image: montajePata,
     alt: {
       es: 'Impresión en aluminio gloss ChromaLuxe con pata de soporte',
       en: 'Gloss ChromaLuxe aluminum print with easel stand',
     },
   },
   {
-    src: portavasos.src,
+    image: portavasos,
     alt: {
       es: 'Portavasos personalizados impresos por Artek',
       en: 'Custom coasters printed by Artek',
     },
   },
   {
-    src: senalizacion.src,
+    image: senalizacion,
     alt: {
       es: 'Ambientación de oficinas con señalización impresa',
       en: 'Office ambiance with printed signage',
     },
   },
 ];
-const carouselImages = carouselSources.map((image) => ({
-  src: image.src,
-  alt: image.alt[lang],
-}));
+const carouselImages = await Promise.all(
+  carouselSources.map(async ({ image, alt }) => {
+    const optimized = await getImage({
+      src: image,
+      width: 640,
+      format: 'webp',
+    });
+
+    return {
+      src: optimized.src,
+      alt: alt[lang],
+    };
+  }),
+);
 ---
 
 <section class="hero">
