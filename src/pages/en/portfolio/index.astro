@@ -2,11 +2,18 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import PortfolioGallery from '../../../components/PortfolioGallery.astro';
 import { useTranslations } from '../../../i18n/ui';
+import { breadcrumbs, productionUrl } from '../../../data/schema';
+import { pageSeo } from '../../../data/seo';
 
-const t = useTranslations('en');
-const title = `${t('portfolio.title')} — Artek`;
+const lang = 'en' as const;
+const t = useTranslations(lang);
+const seo = pageSeo.portfolio[lang];
+const jsonLd = breadcrumbs([
+  { name: t('breadcrumb.home'), url: productionUrl(lang, 'home') },
+  { name: t('nav.portfolio'), url: productionUrl(lang, 'portfolio') },
+]);
 ---
 
-<PageLayout title={title} description={t('portfolio.intro')} routeKey="portfolio">
+<PageLayout title={seo.title} description={seo.description} routeKey="portfolio" jsonLd={jsonLd}>
   <PortfolioGallery />
 </PageLayout>

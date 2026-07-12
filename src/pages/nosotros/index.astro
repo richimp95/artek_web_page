@@ -2,11 +2,18 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import AboutSections from '../../components/AboutSections.astro';
 import { useTranslations } from '../../i18n/ui';
+import { breadcrumbs, productionUrl } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
 
-const t = useTranslations('es');
-const title = `${t('about.title')} — Artek`;
+const lang = 'es' as const;
+const t = useTranslations(lang);
+const seo = pageSeo.about[lang];
+const jsonLd = breadcrumbs([
+  { name: t('breadcrumb.home'), url: productionUrl(lang, 'home') },
+  { name: t('nav.about'), url: productionUrl(lang, 'about') },
+]);
 ---
 
-<PageLayout title={title} description={t('about.lead')} routeKey="about">
+<PageLayout title={seo.title} description={seo.description} routeKey="about" jsonLd={jsonLd}>
   <AboutSections />
 </PageLayout>

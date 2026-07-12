@@ -38,9 +38,17 @@ interface AnimatedImageProps {
 
 function AnimatedImage({ image }: AnimatedImageProps) {
   const ref = React.useRef<HTMLDivElement>(null);
+  const imgRef = React.useRef<HTMLImageElement>(null);
   const isInView = useInView(ref, { once: true, margin: '0px 0px -10% 0px' });
   const [isLoading, setIsLoading] = React.useState(true);
   const ratio = image.width / image.height;
+
+  React.useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      setIsLoading(false);
+    }
+  }, []);
 
   const openLightbox = () => {
     window.dispatchEvent(
@@ -67,6 +75,7 @@ function AnimatedImage({ image }: AnimatedImageProps) {
         aria-label={image.alt}
       >
         <img
+          ref={imgRef}
           alt={image.alt}
           src={image.src}
           className={cn(

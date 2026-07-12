@@ -4,6 +4,7 @@ import '../styles/tailwind.css';
 import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/SEO.astro';
 import { defaultLang, type Lang, type RouteKey } from '../i18n/ui';
+import avantGardeWoff2 from '../assets/fonts/avant_garde_book_bt-webfont.woff2?url';
 
 interface Props {
   title: string;
@@ -24,6 +25,7 @@ const lang = (Astro.currentLocale ?? defaultLang) as Lang;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0d0d0e" />
+    <link rel="preload" href={avantGardeWoff2} as="font" type="font/woff2" crossorigin />
     {/* Marca JS lo antes posible: el contenido es visible sin JS, y solo
         ocultamos los elementos a revelar cuando hay JS (evita FOUC). */}
     <script is:inline>
