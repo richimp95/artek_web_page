@@ -1,12 +1,12 @@
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n/ui';
 
-import imgChromaluxe from '../assets/portfolio/familia-aluminio.jpg';
-import imgAcrilico from '../assets/services/acrilico.jpg';
-import imgFineArt from '../assets/portfolio/globos-madera.jpg';
-import imgEncapsulado from '../assets/services/encapsulado.jpg';
-import imgGranFormato from '../assets/services/gran-formato.jpg';
-import imgArteMural from '../assets/portfolio/muro-galeria.jpg';
+import imgChromaluxe from '../assets/catalogo/chromaluxe/chromaluxe.webp';
+import imgAcrilico from '../assets/catalogo/impresiones-en-acrilico/impresiones-en-acrilico-01.webp';
+import imgFineArt from '../assets/catalogo/aluminios-estandar/impresion-tipo-poster-acabado-mate.webp';
+import imgEncapsulado from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-2.webp';
+import imgGranFormato from '../assets/catalogo/aluminios-estandar/impresiones-tipo-poster-con-back-de-pvc.webp';
+import imgArteMural from '../assets/catalogo/senalizacion/ambientacion-de-oficinas.webp';
 
 export interface Service {
   id: string;

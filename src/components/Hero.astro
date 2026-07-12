@@ -1,7 +1,18 @@
 ---
-import { Image } from 'astro:assets';
 import Button from './Button.astro';
-import heroImg from '../assets/hero-aluminio.jpg';
+import { CardCarousel } from './ui/card-carousel';
+import aluminioAcabados from '../assets/catalogo/aluminios-estandar/aluminio-estandar-plateado-dorado-y-color-cobre.webp';
+import aluminioOctogonal from '../assets/catalogo/aluminios-estandar/impresiones-octogonales.webp';
+import chromaluxeBoard from '../assets/catalogo/chromaluxe/board-completo-de-aluminio-chromaluxe.webp';
+import chromaluxeTexturizado from '../assets/catalogo/chromaluxe/texturizado.webp';
+import acrilicoBlock from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-10x10-pulgadas.webp';
+import acrilicoRedondo from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-redonda-para-reconocimientos.webp';
+import invitacionesAluminio from '../assets/catalogo/impresion-de-invitaciones/invitaciones-impresas-en-aluminio-de-cualquier-tamano.webp';
+import menusAluminio from '../assets/catalogo/impresion-de-invitaciones/menus.webp';
+import montajeSeparadores from '../assets/catalogo/opciones-de-montaje-para-exposicion/montaje-con-separadores-de-vidrio.webp';
+import montajePata from '../assets/catalogo/opciones-de-montaje-para-exposicion/impresion-en-aluminio-gloss-chromaluxe-con-pata.webp';
+import portavasos from '../assets/catalogo/portavasos/portavasos-01.webp';
+import senalizacion from '../assets/catalogo/senalizacion/ambientacion-de-oficinas.webp';
 import {
   useTranslations,
   getRoutePath,
@@ -13,6 +24,56 @@ import {
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 const t = useTranslations(lang);
 const portfolioHref = getRoutePath(lang, 'portfolio');
+const carouselImages = [
+  {
+    src: aluminioAcabados.src,
+    alt: 'Aluminio estándar plateado, dorado y color cobre impreso por Artek',
+  },
+  {
+    src: aluminioOctogonal.src,
+    alt: 'Impresiones octogonales en aluminio estándar',
+  },
+  {
+    src: chromaluxeBoard.src,
+    alt: 'Board completo de aluminio Chromaluxe con acabados premium',
+  },
+  {
+    src: chromaluxeTexturizado.src,
+    alt: 'Impresión sobre aluminio Chromaluxe texturizado',
+  },
+  {
+    src: acrilicoBlock.src,
+    alt: 'Impresión acrílica de 4 mm de espesor en formato 10 por 10 pulgadas',
+  },
+  {
+    src: acrilicoRedondo.src,
+    alt: 'Impresión acrílica redonda para reconocimientos',
+  },
+  {
+    src: invitacionesAluminio.src,
+    alt: 'Invitaciones impresas en aluminio de cualquier tamaño',
+  },
+  {
+    src: menusAluminio.src,
+    alt: 'Menús impresos en aluminio para eventos',
+  },
+  {
+    src: montajeSeparadores.src,
+    alt: 'Montaje con separadores de vidrio para exposición',
+  },
+  {
+    src: montajePata.src,
+    alt: 'Impresión en aluminio gloss Chromaluxe con pata de soporte',
+  },
+  {
+    src: portavasos.src,
+    alt: 'Portavasos personalizados impresos por Artek',
+  },
+  {
+    src: senalizacion.src,
+    alt: 'Ambientación de oficinas con señalización impresa',
+  },
+];
 ---
 
 <section class="hero">
@@ -27,16 +88,12 @@ const portfolioHref = getRoutePath(lang, 'portfolio');
   </div>
 
   <div class="hero__media">
-    <Image
-      src={heroImg}
-      alt={lang === 'es'
-        ? 'Obra de arte a color impresa sobre lámina de aluminio'
-        : 'Colorful artwork printed on an aluminum panel'}
-      widths={[480, 800, 1200, 1600]}
-      sizes="(max-width: 60rem) 100vw, 55vw"
-      loading="eager"
-      fetchpriority="high"
-      class="hero__img"
+    <CardCarousel
+      images={carouselImages}
+      autoplayDelay={2800}
+      showPagination
+      showNavigation={false}
+      client:visible
     />
   </div>
 </section>
@@ -80,12 +137,45 @@ const portfolioHref = getRoutePath(lang, 'portfolio');
 
   .hero__media {
     overflow: hidden;
-  }
-  .hero__img {
+    padding-inline: var(--gutter);
     width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+  }
+  .hero__media :global(astro-island) {
+    display: block;
+    width: 100%;
+  }
+
+  /* Entrada al cargar (Emil: nunca desde scale(0); ease-out; escalonado). */
+  .hero__text > * {
+    animation: hero-rise 700ms var(--ease-out) backwards;
+  }
+  .hero__text > :nth-child(1) { animation-delay: 80ms; }
+  .hero__text > :nth-child(2) { animation-delay: 160ms; }
+  .hero__text > :nth-child(3) { animation-delay: 240ms; }
+  .hero__text > :nth-child(4) { animation-delay: 320ms; }
+  .hero__media {
+    animation: hero-reveal 900ms var(--ease-art) 120ms backwards;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+  @keyframes hero-reveal {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 0 12%);
+      transform: scale(1.04);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__text > *,
+    .hero__media {
+      animation: none;
+    }
   }
 
   /* Layout asimétrico editorial en pantallas grandes */
@@ -101,10 +191,9 @@ const portfolioHref = getRoutePath(lang, 'portfolio');
     }
     .hero__media {
       height: 100%;
-    }
-    .hero__img {
-      height: 100%;
-      aspect-ratio: auto;
+      display: flex;
+      align-items: center;
+      padding: var(--space-l) var(--gutter) var(--space-l) 0;
     }
   }
 

@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import '../styles/tailwind.css';
+import { ClientRouter } from 'astro:transitions';
 import SEO from '../components/SEO.astro';
 import { defaultLang, type Lang, type RouteKey } from '../i18n/ui';
 
@@ -21,6 +23,12 @@ const lang = (Astro.currentLocale ?? defaultLang) as Lang;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d0d0e" />
+    {/* Marca JS lo antes posible: el contenido es visible sin JS, y solo
+        ocultamos los elementos a revelar cuando hay JS (evita FOUC). */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <SEO
       title={title}
       description={description}
@@ -30,9 +38,67 @@ const lang = (Astro.currentLocale ?? defaultLang) as Lang;
       alternates={alternates}
       jsonLd={jsonLd}
     />
+    <ClientRouter />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
     <slot />
   </body>
 </html>
+
+<script>
+  // Revelado al entrar en viewport. Se reinicia en cada navegación de
+  // View Transitions porque escuchamos `astro:page-load` (también dispara
+  // en la carga inicial).
+  function initReveals() {
+    const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if (!els.length) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      els.forEach((el) => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          // Escalonado por grupo: el atributo data-reveal-stagger en el padre
+          // numera a los hijos vía --reveal-delay.
+          el.classList.add('is-revealed');
+          obs.unobserve(el);
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+
+    els.forEach((el) => {
+      // Si ya está en pantalla al cargar, revélalo sin esperar.
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add('is-revealed');
+      } else {
+        io.observe(el);
+      }
+    });
+  }
+
+  // Aplica el escalonado a contenedores marcados con [data-reveal-stagger].
+  function applyStagger() {
+    document.querySelectorAll<HTMLElement>('[data-reveal-stagger]').forEach((group) => {
+      const step = Number(group.dataset.revealStagger) || 60;
+      group.querySelectorAll<HTMLElement>('[data-reveal]').forEach((child, i) => {
+        child.style.setProperty('--reveal-delay', `${i * step}ms`);
+      });
+    });
+  }
+
+  function setup() {
+    applyStagger();
+    initReveals();
+  }
+
+  document.addEventListener('astro:page-load', setup);
+</script>
