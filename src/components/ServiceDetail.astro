@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import Button from './Button.astro';
 import { ThumbnailCarousel } from './ui/thumbnail-carousel';
 import {
@@ -19,10 +20,34 @@ const t = useTranslations(lang);
 const servicesHref = getRoutePath(lang, 'services');
 const homeHref = getRoutePath(lang, 'home');
 const others = services.filter((s) => s.id !== service.id);
-const carouselImages = service.gallery.map((g) => ({
-  src: g.image.src,
-  alt: g.alt[lang],
-}));
+const carouselImages = await Promise.all(
+  service.gallery.map(async (g) => {
+    const [main, thumb] = await Promise.all([
+      getImage({ src: g.image, width: 1000, format: 'webp' }),
+      getImage({ src: g.image, width: 240, format: 'webp' }),
+    ]);
+
+    return {
+      src: main.src,
+      thumbSrc: thumb.src,
+      alt: g.alt[lang],
+    };
+  }),
+);
+const carouselLabels =
+  lang === 'es'
+    ? {
+        carousel: 'Galeria de imagenes del servicio',
+        previous: 'Imagen anterior',
+        next: 'Imagen siguiente',
+        counter: 'Imagen',
+      }
+    : {
+        carousel: 'Service image gallery',
+        previous: 'Previous image',
+        next: 'Next image',
+        counter: 'Image',
+      };
 ---
 
 <article class="service-detail">
@@ -45,7 +70,7 @@ const carouselImages = service.gallery.map((g) => ({
         </div>
       </div>
       <div class="service-detail__media" data-reveal="scale">
-        <ThumbnailCarousel client:visible images={carouselImages} />
+        <ThumbnailCarousel client:visible images={carouselImages} labels={carouselLabels} />
       </div>
     </header>
 

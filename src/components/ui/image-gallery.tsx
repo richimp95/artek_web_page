@@ -1,10 +1,10 @@
 import React from 'react';
 import { useInView } from 'framer-motion';
 import { cn } from '../../lib/utils';
-import { AspectRatio } from './aspect-ratio';
 
 export interface ImageGalleryItem {
   src: string;
+  fullSrc?: string;
   alt: string;
   width: number;
   height: number;
@@ -15,19 +15,47 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images }: ImageGalleryProps) {
-  const columns = [0, 1, 2].map((col) => images.filter((_, index) => index % 3 === col));
+  const singleColumn = [images];
+  const twoColumns = distribute(images, 2);
+  const threeColumns = distribute(images, 3);
 
   return (
     <div className="portfolio-island tw:relative tw:w-full tw:py-10">
-      <div className="tw:mx-auto tw:grid tw:w-full tw:max-w-5xl tw:gap-6 tw:sm:grid-cols-2 tw:lg:grid-cols-3">
-        {columns.map((column, col) => (
-          <div key={col} className="tw:grid tw:gap-6">
-            {column.map((image) => (
-              <AnimatedImage key={image.src} image={image} />
-            ))}
-          </div>
-        ))}
-      </div>
+      <GalleryColumns columns={singleColumn} className="tw:grid tw:sm:hidden" />
+      <GalleryColumns columns={twoColumns} className="tw:hidden tw:sm:grid tw:sm:grid-cols-2 tw:lg:hidden" />
+      <GalleryColumns columns={threeColumns} className="tw:hidden tw:lg:grid tw:lg:grid-cols-3" />
+    </div>
+  );
+}
+
+function distribute(images: ImageGalleryItem[], columnCount: number) {
+  const columns: ImageGalleryItem[][] = Array.from({ length: columnCount }, () => []);
+  const heights = new Array(columnCount).fill(0);
+
+  for (const image of images) {
+    const shortest = heights.indexOf(Math.min(...heights));
+    columns[shortest].push(image);
+    heights[shortest] += image.height / image.width;
+  }
+
+  return columns;
+}
+
+interface GalleryColumnsProps {
+  columns: ImageGalleryItem[][];
+  className: string;
+}
+
+function GalleryColumns({ columns, className }: GalleryColumnsProps) {
+  return (
+    <div className={cn('tw:mx-auto tw:w-full tw:max-w-5xl tw:gap-4', className)}>
+      {columns.map((column, col) => (
+        <div key={col} className="tw:grid tw:content-start tw:gap-4">
+          {column.map((image) => (
+            <AnimatedImage key={image.src} image={image} />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
@@ -37,11 +65,10 @@ interface AnimatedImageProps {
 }
 
 function AnimatedImage({ image }: AnimatedImageProps) {
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = React.useRef<HTMLElement>(null);
   const imgRef = React.useRef<HTMLImageElement>(null);
   const isInView = useInView(ref, { once: true, margin: '0px 0px -10% 0px' });
   const [isLoading, setIsLoading] = React.useState(true);
-  const ratio = image.width / image.height;
 
   React.useEffect(() => {
     const img = imgRef.current;
@@ -54,7 +81,7 @@ function AnimatedImage({ image }: AnimatedImageProps) {
     window.dispatchEvent(
       new CustomEvent('artek:gallery-open', {
         detail: {
-          src: image.src,
+          src: image.fullSrc ?? image.src,
           alt: image.alt,
           title: image.alt,
         },
@@ -63,10 +90,10 @@ function AnimatedImage({ image }: AnimatedImageProps) {
   };
 
   return (
-    <AspectRatio
+    <figure
       ref={ref}
-      ratio={ratio}
       className="portfolio-island__item tw:relative tw:w-full tw:overflow-hidden tw:rounded-lg tw:border tw:border-white/10"
+      style={{ aspectRatio: `${image.width} / ${image.height}` }}
     >
       <button
         type="button"
@@ -87,6 +114,7 @@ function AnimatedImage({ image }: AnimatedImageProps) {
           decoding="async"
         />
       </button>
-    </AspectRatio>
+      <figcaption className="portfolio-island__caption">{image.alt}</figcaption>
+    </figure>
   );
 }

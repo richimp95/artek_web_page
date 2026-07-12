@@ -136,14 +136,22 @@ const portfolioSources: GallerySource[] = [
 
 const galleryImages: ImageGalleryItem[] = await Promise.all(
   [...portfolioSources, ...catalogSources].map(async ({ image, alt }) => {
-    const optimized = await getImage({
-      src: image,
-      width: Math.min(image.width, 1600),
-      format: 'webp',
-    });
+    const [grid, full] = await Promise.all([
+      getImage({
+        src: image,
+        width: Math.min(image.width, 800),
+        format: 'webp',
+      }),
+      getImage({
+        src: image,
+        width: Math.min(image.width, 1600),
+        format: 'webp',
+      }),
+    ]);
 
     return {
-      src: optimized.src,
+      src: grid.src,
+      fullSrc: full.src,
       alt: alt[lang],
       width: image.width,
       height: image.height,
@@ -233,6 +241,18 @@ const galleryImages: ImageGalleryItem[] = await Promise.all(
   .gallery-island :global(.portfolio-island__button:focus-visible .portfolio-island__image) {
     transform: scale(1.045);
     filter: brightness(1.04) saturate(1.05);
+  }
+  .gallery-island :global(.portfolio-island__caption) {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    pointer-events: none;
+    padding: 2rem 0.75rem 0.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.75rem;
+    line-height: 1.35;
+    text-align: left;
   }
 
   /* --- Lightbox --- */

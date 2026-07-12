@@ -127,7 +127,7 @@ export const services: Service[] = [
       es: ['Color vibrante y alto contraste', 'Resistente a humedad, rayones y UV', 'Acabado moderno listo para colgar', 'Durabilidad de generaciones'],
       en: ['Vibrant color and high contrast', 'Resistant to moisture, scratches and UV', 'Modern, ready-to-hang finish', 'Lasts for generations'],
     },
-    image: chromaluxePanel,
+    image: chromaluxeGloss,
     gallery: serviceGalleries.chromaluxe,
   },
   {
@@ -146,7 +146,7 @@ export const services: Service[] = [
       es: ['Brillo y profundidad excepcionales', 'Luminosidad que realza el color', 'Aspecto limpio y contemporáneo', 'Sistema de montaje oculto'],
       en: ['Exceptional gloss and depth', 'Luminosity that enhances color', 'Clean, contemporary look', 'Hidden mounting system'],
     },
-    image: acrilicoImpresiones,
+    image: acrilicoBlock,
     gallery: serviceGalleries.acrilico,
   },
   {
@@ -165,7 +165,7 @@ export const services: Service[] = [
       es: ['Papeles de algodón libres de ácido', 'Tintas pigmentadas de archivo', 'Gama tonal amplia y textura noble', 'Calidad museo para coleccionistas'],
       en: ['Acid-free cotton papers', 'Archival pigment inks', 'Wide tonal range and refined texture', 'Museum quality for collectors'],
     },
-    image: aluminioPosterMate,
+    image: aluminioOctogonales,
     gallery: serviceGalleries.fineArtPaper,
   },
   {
@@ -203,7 +203,7 @@ export const services: Service[] = [
       es: ['Escala sin pérdida de resolución', 'Fidelidad de color consistente', 'Asesoría de materiales y montaje', 'Para proyectos comerciales y hoteleros'],
       en: ['Scale without losing resolution', 'Consistent color fidelity', 'Material and mounting guidance', 'For commercial and hospitality projects'],
     },
-    image: aluminioPosterPvc,
+    image: aluminioDistintosAcabados,
     gallery: serviceGalleries.granFormato,
   },
   {
@@ -222,7 +222,7 @@ export const services: Service[] = [
       es: ['Curaduría y composición a medida', 'Coordinación con diseño de interiores', 'Formatos y materiales combinables', 'Acompañamiento hasta la instalación'],
       en: ['Bespoke curation and composition', 'Coordination with interior design', 'Mixable formats and materials', 'Support through installation'],
     },
-    image: senalizacionOficinas,
+    image: montajeBackMadera,
     gallery: serviceGalleries.arteMural,
   },
 ];
