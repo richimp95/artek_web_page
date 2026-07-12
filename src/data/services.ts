@@ -1,12 +1,37 @@
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n/ui';
 
-import imgChromaluxe from '../assets/catalogo/chromaluxe/chromaluxe.webp';
-import imgAcrilico from '../assets/catalogo/impresiones-en-acrilico/impresiones-en-acrilico-01.webp';
-import imgFineArt from '../assets/catalogo/aluminios-estandar/impresion-tipo-poster-acabado-mate.webp';
-import imgEncapsulado from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-2.webp';
-import imgGranFormato from '../assets/catalogo/aluminios-estandar/impresiones-tipo-poster-con-back-de-pvc.webp';
-import imgArteMural from '../assets/catalogo/senalizacion/ambientacion-de-oficinas.webp';
+import aluminioAcabados from '../assets/catalogo/aluminios-estandar/aluminio-estandar-plateado-dorado-y-color-cobre.webp';
+import aluminioDistintosAcabados from '../assets/catalogo/aluminios-estandar/aluminios-estandar-en-distintos-acabados.webp';
+import aluminioPosterMate from '../assets/catalogo/aluminios-estandar/impresion-tipo-poster-acabado-mate.webp';
+import aluminioPosterPvcBrillante from '../assets/catalogo/aluminios-estandar/impresion-tipo-poster-con-back-de-pvc-tamanos-variados-acabado-brillante.webp';
+import aluminioOctogonales from '../assets/catalogo/aluminios-estandar/impresiones-octogonales.webp';
+import aluminioRedondas from '../assets/catalogo/aluminios-estandar/impresiones-redondas-en-aluminio-estandar.webp';
+import aluminioPosterPvc from '../assets/catalogo/aluminios-estandar/impresiones-tipo-poster-con-back-de-pvc.webp';
+import chromaluxeBoard from '../assets/catalogo/chromaluxe/board-completo-de-aluminio-chromaluxe.webp';
+import chromaluxePanel from '../assets/catalogo/chromaluxe/chromaluxe.webp';
+import chromaluxeGlossClear from '../assets/catalogo/chromaluxe/gloss-clear.webp';
+import chromaluxeGloss from '../assets/catalogo/chromaluxe/gloss.webp';
+import chromaluxeMate from '../assets/catalogo/chromaluxe/mate.webp';
+import chromaluxeSemiGloss from '../assets/catalogo/chromaluxe/semi-gloss.webp';
+import chromaluxeTexturizado from '../assets/catalogo/chromaluxe/texturizado.webp';
+import acrilicoBlock from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-10x10-pulgadas.webp';
+import acrilico4mm from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-2.webp';
+import acrilicoParteAtras from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-de-4-mm-de-espesor-parte-de-atras.webp';
+import acrilicoReconocimiento from '../assets/catalogo/impresiones-en-acrilico/impresion-acrilica-redonda-para-reconocimientos.webp';
+import acrilicoBajaplatos from '../assets/catalogo/impresiones-en-acrilico/impresion-en-acriloico-redonda-para-bajaplatos.webp';
+import acrilicoImpresiones from '../assets/catalogo/impresiones-en-acrilico/impresiones-en-acrilico-01.webp';
+import montajeBackMadera from '../assets/catalogo/opciones-de-montaje-para-exposicion/back-de-madera-con-impresion-de-aluminio-alzada.webp';
+import montajeBasesAcrilico from '../assets/catalogo/opciones-de-montaje-para-exposicion/bases-acrilicas-para-fotografias-impresas-en-acrilico.webp';
+import montajeBasesAluminio from '../assets/catalogo/opciones-de-montaje-para-exposicion/bases-acrilicas-para-impresion-en-aluminio-2.webp';
+import montajeBastidorAluminio from '../assets/catalogo/opciones-de-montaje-para-exposicion/colgador-de-aluminio-tipo-bastidor.webp';
+import montajeColgadoresMadera from '../assets/catalogo/opciones-de-montaje-para-exposicion/colgadores-de-madera-a-la-medida.webp';
+import montajePata from '../assets/catalogo/opciones-de-montaje-para-exposicion/impresiones-con-pata.webp';
+import montajeSeparadores from '../assets/catalogo/opciones-de-montaje-para-exposicion/montaje-con-separadores-de-vidrio.webp';
+import senalizacionOficinas from '../assets/catalogo/senalizacion/ambientacion-de-oficinas.webp';
+import senalizacionMarcas from '../assets/catalogo/senalizacion/impresion-de-marcas.webp';
+import senalizacionCircular from '../assets/catalogo/senalizacion/senalizacion-circular-propuestas-diferentes.webp';
+import senalizacionPanel from '../assets/catalogo/senalizacion/senalizacion.webp';
 
 export interface Service {
   id: string;
@@ -17,7 +42,69 @@ export interface Service {
   description: Record<Lang, string>;
   benefits: Record<Lang, string[]>;
   image: ImageMetadata;
+  /** Imágenes del carrusel del detalle (4-8, del catálogo). */
+  gallery: ImageGalleryEntry[];
 }
+
+export interface ImageGalleryEntry {
+  image: ImageMetadata;
+  alt: Record<Lang, string>;
+}
+
+const galleryEntry = (
+  image: ImageMetadata,
+  es: string,
+  en: string,
+): ImageGalleryEntry => ({ image, alt: { es, en } });
+
+const serviceGalleries = {
+  chromaluxe: [
+    galleryEntry(chromaluxeBoard, 'Board completo de aluminio ChromaLuxe', 'Complete ChromaLuxe aluminum board'),
+    galleryEntry(chromaluxeGloss, 'Aluminio ChromaLuxe con acabado gloss', 'ChromaLuxe aluminum with gloss finish'),
+    galleryEntry(chromaluxeGlossClear, 'Aluminio ChromaLuxe gloss clear', 'ChromaLuxe gloss clear aluminum'),
+    galleryEntry(chromaluxeSemiGloss, 'Aluminio ChromaLuxe semi-gloss', 'ChromaLuxe semi-gloss aluminum'),
+    galleryEntry(chromaluxeMate, 'Aluminio ChromaLuxe con acabado mate', 'ChromaLuxe aluminum with matte finish'),
+    galleryEntry(chromaluxeTexturizado, 'Aluminio ChromaLuxe con acabado texturizado', 'ChromaLuxe aluminum with textured finish'),
+    galleryEntry(chromaluxePanel, 'Panel de aluminio ChromaLuxe impreso', 'Printed ChromaLuxe aluminum panel'),
+  ],
+  acrilico: [
+    galleryEntry(acrilicoBlock, 'Impresión acrílica de 4 mm en formato 10 por 10 pulgadas', '4 mm acrylic print in 10 by 10 inch format'),
+    galleryEntry(acrilico4mm, 'Impresión acrílica de 4 mm de espesor', '4 mm thick acrylic print'),
+    galleryEntry(acrilicoParteAtras, 'Parte posterior de impresión acrílica de 4 mm', 'Back side of a 4 mm acrylic print'),
+    galleryEntry(acrilicoReconocimiento, 'Impresión acrílica redonda para reconocimientos', 'Round acrylic print for awards'),
+    galleryEntry(acrilicoBajaplatos, 'Impresión acrílica redonda para bajaplatos', 'Round acrylic print for charger plates'),
+    galleryEntry(acrilicoImpresiones, 'Impresiones en acrílico de alta claridad', 'High-clarity acrylic prints'),
+  ],
+  fineArtPaper: [
+    galleryEntry(aluminioPosterMate, 'Impresión tipo póster con acabado mate', 'Poster-style print with matte finish'),
+    galleryEntry(aluminioPosterPvc, 'Impresiones tipo póster con back de PVC', 'Poster-style prints with PVC backing'),
+    galleryEntry(aluminioPosterPvcBrillante, 'Impresión tipo póster brillante con back de PVC en tamaños variados', 'Glossy poster-style print with PVC backing in varied sizes'),
+    galleryEntry(aluminioOctogonales, 'Impresiones octogonales en aluminio estándar', 'Octagonal prints on standard aluminum'),
+    galleryEntry(aluminioRedondas, 'Impresiones redondas en aluminio estándar', 'Round prints on standard aluminum'),
+  ],
+  encapsuladoAcrilico: [
+    galleryEntry(acrilicoBlock, 'Impresión acrílica de 4 mm en formato 10 por 10 pulgadas', '4 mm acrylic print in 10 by 10 inch format'),
+    galleryEntry(acrilico4mm, 'Impresión acrílica de 4 mm de espesor', '4 mm thick acrylic print'),
+    galleryEntry(acrilicoParteAtras, 'Parte posterior de impresión acrílica de 4 mm', 'Back side of a 4 mm acrylic print'),
+    galleryEntry(montajeBasesAcrilico, 'Bases acrílicas para fotografías impresas en acrílico', 'Acrylic bases for photos printed on acrylic'),
+    galleryEntry(montajeBasesAluminio, 'Bases acrílicas para impresión en aluminio', 'Acrylic bases for aluminum prints'),
+  ],
+  granFormato: [
+    galleryEntry(senalizacionPanel, 'Señalización impresa para espacios comerciales', 'Printed signage for commercial spaces'),
+    galleryEntry(senalizacionCircular, 'Señalización circular con propuestas diferentes', 'Circular signage with varied proposals'),
+    galleryEntry(senalizacionMarcas, 'Impresión de marcas para proyectos corporativos', 'Brand printing for corporate projects'),
+    galleryEntry(aluminioDistintosAcabados, 'Aluminios estándar en distintos acabados', 'Standard aluminum in multiple finishes'),
+    galleryEntry(aluminioAcabados, 'Aluminio estándar plateado, dorado y color cobre', 'Standard aluminum in silver, gold and copper colors'),
+  ],
+  arteMural: [
+    galleryEntry(senalizacionOficinas, 'Ambientación de oficinas con piezas impresas', 'Office ambiance with printed pieces'),
+    galleryEntry(montajeSeparadores, 'Montaje con separadores de vidrio para exposición', 'Glass standoff mounting for display'),
+    galleryEntry(montajeBackMadera, 'Back de madera con impresión de aluminio alzada', 'Wood backing with raised aluminum print'),
+    galleryEntry(montajeColgadoresMadera, 'Colgadores de madera a la medida', 'Custom wood hangers'),
+    galleryEntry(montajeBastidorAluminio, 'Colgador de aluminio tipo bastidor', 'Frame-style aluminum hanger'),
+    galleryEntry(montajePata, 'Impresiones con pata para exhibición', 'Prints with easel stand for display'),
+  ],
+} satisfies Record<string, ImageGalleryEntry[]>;
 
 /**
  * Catálogo de servicios. Agregar un servicio = agregar una entrada aquí;
@@ -40,7 +127,8 @@ export const services: Service[] = [
       es: ['Color vibrante y alto contraste', 'Resistente a humedad, rayones y UV', 'Acabado moderno listo para colgar', 'Durabilidad de generaciones'],
       en: ['Vibrant color and high contrast', 'Resistant to moisture, scratches and UV', 'Modern, ready-to-hang finish', 'Lasts for generations'],
     },
-    image: imgChromaluxe,
+    image: chromaluxePanel,
+    gallery: serviceGalleries.chromaluxe,
   },
   {
     id: 'acrilico',
@@ -58,7 +146,8 @@ export const services: Service[] = [
       es: ['Brillo y profundidad excepcionales', 'Luminosidad que realza el color', 'Aspecto limpio y contemporáneo', 'Sistema de montaje oculto'],
       en: ['Exceptional gloss and depth', 'Luminosity that enhances color', 'Clean, contemporary look', 'Hidden mounting system'],
     },
-    image: imgAcrilico,
+    image: acrilicoImpresiones,
+    gallery: serviceGalleries.acrilico,
   },
   {
     id: 'fine-art-paper',
@@ -76,7 +165,8 @@ export const services: Service[] = [
       es: ['Papeles de algodón libres de ácido', 'Tintas pigmentadas de archivo', 'Gama tonal amplia y textura noble', 'Calidad museo para coleccionistas'],
       en: ['Acid-free cotton papers', 'Archival pigment inks', 'Wide tonal range and refined texture', 'Museum quality for collectors'],
     },
-    image: imgFineArt,
+    image: aluminioPosterMate,
+    gallery: serviceGalleries.fineArtPaper,
   },
   {
     id: 'encapsulado-acrilico',
@@ -94,7 +184,8 @@ export const services: Service[] = [
       es: ['Protección sellada de la imagen', 'Profundidad y acabado de galería', 'Bordes pulidos y precisos', 'Ideal para piezas de alto valor'],
       en: ['Sealed image protection', 'Depth and gallery finish', 'Polished, precise edges', 'Ideal for high-value pieces'],
     },
-    image: imgEncapsulado,
+    image: acrilico4mm,
+    gallery: serviceGalleries.encapsuladoAcrilico,
   },
   {
     id: 'gran-formato',
@@ -112,7 +203,8 @@ export const services: Service[] = [
       es: ['Escala sin pérdida de resolución', 'Fidelidad de color consistente', 'Asesoría de materiales y montaje', 'Para proyectos comerciales y hoteleros'],
       en: ['Scale without losing resolution', 'Consistent color fidelity', 'Material and mounting guidance', 'For commercial and hospitality projects'],
     },
-    image: imgGranFormato,
+    image: aluminioPosterPvc,
+    gallery: serviceGalleries.granFormato,
   },
   {
     id: 'arte-mural',
@@ -130,7 +222,8 @@ export const services: Service[] = [
       es: ['Curaduría y composición a medida', 'Coordinación con diseño de interiores', 'Formatos y materiales combinables', 'Acompañamiento hasta la instalación'],
       en: ['Bespoke curation and composition', 'Coordination with interior design', 'Mixable formats and materials', 'Support through installation'],
     },
-    image: imgArteMural,
+    image: senalizacionOficinas,
+    gallery: serviceGalleries.arteMural,
   },
 ];
 

@@ -25,65 +25,113 @@ const t = useTranslations(lang);
 
 interface GallerySource {
   image: ImageMetadata;
-  alt: string;
+  alt: Record<Lang, string>;
 }
 
 const catalogSources: GallerySource[] = [
   {
     image: catalogAluminioAcabados,
-    alt: 'Aluminios estándar en distintos acabados',
+    alt: {
+      es: 'Aluminios estándar en distintos acabados',
+      en: 'Standard aluminum in multiple finishes',
+    },
   },
   {
     image: catalogAluminioRedondo,
-    alt: 'Impresiones redondas en aluminio estándar',
+    alt: {
+      es: 'Impresiones redondas en aluminio estándar',
+      en: 'Round prints on standard aluminum',
+    },
   },
   {
     image: catalogChromaluxeBoard,
-    alt: 'Board completo de aluminio Chromaluxe',
+    alt: {
+      es: 'Board completo de aluminio ChromaLuxe',
+      en: 'Complete ChromaLuxe aluminum board',
+    },
   },
   {
     image: catalogChromaluxeGloss,
-    alt: 'Aluminio Chromaluxe con acabado gloss',
+    alt: {
+      es: 'Aluminio ChromaLuxe con acabado gloss',
+      en: 'ChromaLuxe aluminum with gloss finish',
+    },
   },
   {
     image: catalogChromaluxeTextura,
-    alt: 'Aluminio Chromaluxe con acabado texturizado',
+    alt: {
+      es: 'Aluminio ChromaLuxe con acabado texturizado',
+      en: 'ChromaLuxe aluminum with textured finish',
+    },
   },
   {
     image: catalogAcrilicoBlock,
-    alt: 'Impresión acrílica de 4 mm de espesor',
+    alt: {
+      es: 'Impresión acrílica de 4 mm de espesor',
+      en: '4 mm thick acrylic print',
+    },
   },
   {
     image: catalogAcrilicoRedondo,
-    alt: 'Impresión en acrílico redonda para bajaplatos',
+    alt: {
+      es: 'Impresión en acrílico redonda para bajaplatos',
+      en: 'Round acrylic print for charger plates',
+    },
   },
   {
     image: catalogInvitaciones,
-    alt: 'Invitaciones empresariales impresas',
+    alt: {
+      es: 'Invitaciones empresariales impresas',
+      en: 'Printed corporate invitations',
+    },
   },
   {
     image: catalogMontaje,
-    alt: 'Montaje con separadores de vidrio',
+    alt: {
+      es: 'Montaje con separadores de vidrio',
+      en: 'Glass standoff mounting',
+    },
   },
   {
     image: catalogPortavasos,
-    alt: 'Portavasos personalizados impresos por Artek',
+    alt: {
+      es: 'Portavasos personalizados impresos por Artek',
+      en: 'Custom coasters printed by Artek',
+    },
   },
   {
     image: catalogSenalizacion,
-    alt: 'Ambientación de oficinas con señalización impresa',
+    alt: {
+      es: 'Ambientación de oficinas con señalización impresa',
+      en: 'Office ambiance with printed signage',
+    },
   },
   {
     image: catalogTagMaleta,
-    alt: 'Tag de maleta cuadrado personalizable',
+    alt: {
+      es: 'Tag de maleta cuadrado personalizable',
+      en: 'Custom square luggage tag',
+    },
   },
 ];
 
 const portfolioSources: GallerySource[] = [
-  { image: catalogChromaluxeMate, alt: 'Aluminio Chromaluxe con acabado mate' },
-  { image: catalogMagnetos, alt: 'Impresión de magnetos de cualquier tamaño' },
-  { image: catalogImpresionesPata, alt: 'Impresiones en aluminio con pata' },
-  { image: catalogNumerosMesa, alt: 'Números de mesa impresos' },
+  {
+    image: catalogChromaluxeMate,
+    alt: { es: 'Aluminio ChromaLuxe con acabado mate', en: 'ChromaLuxe aluminum with matte finish' },
+  },
+  {
+    image: catalogMagnetos,
+    alt: { es: 'Impresión de magnetos de cualquier tamaño', en: 'Magnet printing in custom sizes' },
+  },
+  {
+    image: catalogImpresionesPata,
+    alt: { es: 'Impresiones en aluminio con pata', en: 'Aluminum prints with easel stand' },
+  },
+  {
+    image: catalogNumerosMesa,
+    alt: { es: 'Números de mesa impresos', en: 'Printed table numbers' },
+  },
 ];
 
 const galleryImages: ImageGalleryItem[] = await Promise.all(
@@ -96,7 +144,7 @@ const galleryImages: ImageGalleryItem[] = await Promise.all(
 
     return {
       src: optimized.src,
-      alt,
+      alt: alt[lang],
       width: image.width,
       height: image.height,
     };

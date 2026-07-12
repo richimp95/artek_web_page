@@ -24,56 +24,96 @@ import {
 const lang = (Astro.currentLocale ?? defaultLang) as Lang;
 const t = useTranslations(lang);
 const portfolioHref = getRoutePath(lang, 'portfolio');
-const carouselImages = [
+const carouselSources: { src: string; alt: Record<Lang, string> }[] = [
   {
     src: aluminioAcabados.src,
-    alt: 'Aluminio estándar plateado, dorado y color cobre impreso por Artek',
+    alt: {
+      es: 'Aluminio estándar plateado, dorado y color cobre impreso por Artek',
+      en: 'Standard silver, gold and copper aluminum printed by Artek',
+    },
   },
   {
     src: aluminioOctogonal.src,
-    alt: 'Impresiones octogonales en aluminio estándar',
+    alt: {
+      es: 'Impresiones octogonales en aluminio estándar',
+      en: 'Octagonal prints on standard aluminum',
+    },
   },
   {
     src: chromaluxeBoard.src,
-    alt: 'Board completo de aluminio Chromaluxe con acabados premium',
+    alt: {
+      es: 'Board completo de aluminio ChromaLuxe con acabados premium',
+      en: 'Complete ChromaLuxe aluminum board with premium finishes',
+    },
   },
   {
     src: chromaluxeTexturizado.src,
-    alt: 'Impresión sobre aluminio Chromaluxe texturizado',
+    alt: {
+      es: 'Impresión sobre aluminio ChromaLuxe texturizado',
+      en: 'Print on textured ChromaLuxe aluminum',
+    },
   },
   {
     src: acrilicoBlock.src,
-    alt: 'Impresión acrílica de 4 mm de espesor en formato 10 por 10 pulgadas',
+    alt: {
+      es: 'Impresión acrílica de 4 mm de espesor en formato 10 por 10 pulgadas',
+      en: '4 mm acrylic print in 10 by 10 inch format',
+    },
   },
   {
     src: acrilicoRedondo.src,
-    alt: 'Impresión acrílica redonda para reconocimientos',
+    alt: {
+      es: 'Impresión acrílica redonda para reconocimientos',
+      en: 'Round acrylic print for awards',
+    },
   },
   {
     src: invitacionesAluminio.src,
-    alt: 'Invitaciones impresas en aluminio de cualquier tamaño',
+    alt: {
+      es: 'Invitaciones impresas en aluminio de cualquier tamaño',
+      en: 'Invitations printed on aluminum in custom sizes',
+    },
   },
   {
     src: menusAluminio.src,
-    alt: 'Menús impresos en aluminio para eventos',
+    alt: {
+      es: 'Menús impresos en aluminio para eventos',
+      en: 'Menus printed on aluminum for events',
+    },
   },
   {
     src: montajeSeparadores.src,
-    alt: 'Montaje con separadores de vidrio para exposición',
+    alt: {
+      es: 'Montaje con separadores de vidrio para exposición',
+      en: 'Glass standoff mounting for display',
+    },
   },
   {
     src: montajePata.src,
-    alt: 'Impresión en aluminio gloss Chromaluxe con pata de soporte',
+    alt: {
+      es: 'Impresión en aluminio gloss ChromaLuxe con pata de soporte',
+      en: 'Gloss ChromaLuxe aluminum print with easel stand',
+    },
   },
   {
     src: portavasos.src,
-    alt: 'Portavasos personalizados impresos por Artek',
+    alt: {
+      es: 'Portavasos personalizados impresos por Artek',
+      en: 'Custom coasters printed by Artek',
+    },
   },
   {
     src: senalizacion.src,
-    alt: 'Ambientación de oficinas con señalización impresa',
+    alt: {
+      es: 'Ambientación de oficinas con señalización impresa',
+      en: 'Office ambiance with printed signage',
+    },
   },
 ];
+const carouselImages = carouselSources.map((image) => ({
+  src: image.src,
+  alt: image.alt[lang],
+}));
 ---
 
 <section class="hero">

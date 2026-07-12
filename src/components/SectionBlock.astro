@@ -6,12 +6,22 @@ interface Props {
   alt?: boolean;
   /** Oculta la marca de gradiente sobre el título */
   noMark?: boolean;
+  headingTag?: 'h1' | 'h2';
   id?: string;
   class?: string;
 }
 
-const { eyebrow, title, alt = false, noMark = false, id, class: extra = '' } = Astro.props;
+const {
+  eyebrow,
+  title,
+  alt = false,
+  noMark = false,
+  headingTag = 'h2',
+  id,
+  class: extra = '',
+} = Astro.props;
 const hasHeader = Boolean(eyebrow || title);
+const HeadingTag = headingTag;
 ---
 
 <section class:list={['section', { 'section--alt': alt }, extra]} id={id}>
@@ -21,7 +31,7 @@ const hasHeader = Boolean(eyebrow || title);
         <header class="section__head" data-reveal>
           {!noMark && <span class="section__mark" aria-hidden="true" />}
           {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-          {title && <h2 class="section__title">{title}</h2>}
+          {title && <HeadingTag class="section__title">{title}</HeadingTag>}
         </header>
       )
     }

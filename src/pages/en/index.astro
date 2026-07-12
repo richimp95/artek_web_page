@@ -1,12 +1,13 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import HomeSections from '../../components/HomeSections.astro';
-import { useTranslations } from '../../i18n/ui';
+import { webSite } from '../../data/schema';
+import { pageSeo } from '../../data/seo';
 
-const t = useTranslations('en');
-const title = `${t('site.name')} — ${t('site.tagline')}`;
+const lang = 'en' as const;
+const seo = pageSeo.home[lang];
 ---
 
-<PageLayout title={title} description={t('site.description')} routeKey="home">
+<PageLayout title={seo.title} description={seo.description} routeKey="home" jsonLd={webSite(lang)}>
   <HomeSections />
 </PageLayout>

@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import Button from './Button.astro';
+import { ThumbnailCarousel } from './ui/thumbnail-carousel';
 import {
   useTranslations,
   getRoutePath,
@@ -19,6 +19,10 @@ const t = useTranslations(lang);
 const servicesHref = getRoutePath(lang, 'services');
 const homeHref = getRoutePath(lang, 'home');
 const others = services.filter((s) => s.id !== service.id);
+const carouselImages = service.gallery.map((g) => ({
+  src: g.image.src,
+  alt: g.alt[lang],
+}));
 ---
 
 <article class="service-detail">
@@ -41,13 +45,7 @@ const others = services.filter((s) => s.id !== service.id);
         </div>
       </div>
       <div class="service-detail__media" data-reveal="scale">
-        <Image
-          src={service.image}
-          alt={service.title[lang]}
-          widths={[400, 800, 1200]}
-          sizes="(max-width: 60rem) 100vw, 50vw"
-          loading="eager"
-        />
+        <ThumbnailCarousel client:visible images={carouselImages} />
       </div>
     </header>
 
@@ -111,11 +109,11 @@ const others = services.filter((s) => s.id !== service.id);
   .service-detail__cta {
     margin-top: var(--space-2xs);
   }
-  .service-detail__media :global(img) {
+  .service-detail__media :global(astro-island) {
+    display: block;
+  }
+  .service-detail__media {
     width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
   }
 
   .service-detail__benefits {

@@ -2,11 +2,18 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 import ServicesIndex from '../../../components/ServicesIndex.astro';
 import { useTranslations } from '../../../i18n/ui';
+import { breadcrumbs, productionUrl } from '../../../data/schema';
+import { pageSeo } from '../../../data/seo';
 
-const t = useTranslations('en');
-const title = `${t('services.title')} — Artek`;
+const lang = 'en' as const;
+const t = useTranslations(lang);
+const seo = pageSeo.services[lang];
+const jsonLd = breadcrumbs([
+  { name: t('breadcrumb.home'), url: productionUrl(lang, 'home') },
+  { name: t('nav.services'), url: productionUrl(lang, 'services') },
+]);
 ---
 
-<PageLayout title={title} description={t('services.intro')} routeKey="services">
+<PageLayout title={seo.title} description={seo.description} routeKey="services" jsonLd={jsonLd}>
   <ServicesIndex />
 </PageLayout>

@@ -231,7 +231,8 @@ export function CardCarousel({
                       src={image.src}
                       className="card-carousel__image"
                       alt={image.alt}
-                      loading="lazy"
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      {...{ fetchpriority: index === 0 ? 'high' : 'auto' }}
                       decoding="async"
                     />
                   </div>

@@ -5,6 +5,7 @@ import {
   type Lang,
   type RouteKey,
 } from '../i18n/ui';
+import { localBusiness } from '../data/schema';
 
 interface Props {
   title: string;
@@ -22,6 +23,7 @@ interface Props {
 const { title, description, lang, routeKey, path, alternates, jsonLd } = Astro.props;
 
 const site = Astro.site ?? new URL('http://localhost');
+const isPages = (process.env.DEPLOY_TARGET ?? 'ftp') === 'pages';
 const base = import.meta.env.BASE_URL;
 const join = (...p: string[]) => `/${p.filter(Boolean).join('/')}/`.replace(/\/{2,}/g, '/');
 // Para archivos estáticos: SIN barra final (si no, el navegador pide "favicon.png/" → 404).
@@ -38,14 +40,20 @@ const xDefault = alternates
   : getAbsoluteUrl(site, defaultLang, routeKey);
 
 const ogLocale = lang === 'es' ? 'es_GT' : 'en_US';
-const ogImage = new URL(joinFile(base, 'og-image.jpg'), site).href;
-const favicon32 = joinFile(base, 'favicon-32.png');
-const favicon16 = joinFile(base, 'favicon-16.png');
-const appleTouch = joinFile(base, 'apple-touch-icon.png');
+const ogLocaleAlternate = lang === 'es' ? 'en_US' : 'es_GT';
+const assetVersion = '2';
+const versioned = (filePath: string) => `${filePath}?v=${assetVersion}`;
+const ogImage = new URL(versioned(joinFile(base, 'og-image.jpg')), site).href;
+const favicon32 = versioned(joinFile(base, 'favicon-32.png'));
+const favicon16 = versioned(joinFile(base, 'favicon-16.png'));
+const appleTouch = versioned(joinFile(base, 'apple-touch-icon.png'));
+const pageJsonLd = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const jsonLdGraph = [localBusiness(lang), ...pageJsonLd];
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
+{isPages && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonical} />
 {altList.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
 <link rel="alternate" hreflang="x-default" href={xDefault} />
@@ -54,6 +62,7 @@ const appleTouch = joinFile(base, 'apple-touch-icon.png');
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Artek" />
 <meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlternate} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
@@ -69,4 +78,4 @@ const appleTouch = joinFile(base, 'apple-touch-icon.png');
 <link rel="icon" href={favicon16} type="image/png" sizes="16x16" />
 <link rel="apple-touch-icon" href={appleTouch} />
 
-{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />

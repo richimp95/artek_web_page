@@ -23,3 +23,6 @@ npm-debug.log*
 # Originales que deja el cliente (yo los optimizo a src/assets)
 nuevas-imagenes/
 FOTOS PARA CATALOGO Y CATALOGO/
+
+# Salidas de herramientas de análisis
+graphify-out/
