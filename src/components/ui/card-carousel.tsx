@@ -1,5 +1,5 @@
 import { SparklesIcon } from 'lucide-react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -109,6 +109,7 @@ const carouselCss = `
   bottom: 0.55rem;
 }
 .card-carousel .swiper-pagination-bullet {
+  position: relative;
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
@@ -117,6 +118,12 @@ const carouselCss = `
   transition:
     width 200ms var(--ease-out),
     background-color 200ms var(--ease-out);
+}
+/* Zona táctil ampliada sin cambiar el tamaño visual del dot */
+.card-carousel .swiper-pagination-bullet::before {
+  content: '';
+  position: absolute;
+  inset: -0.65rem;
 }
 .card-carousel .swiper-pagination-bullet-active {
   width: 1.25rem;
@@ -201,7 +208,7 @@ export function CardCarousel({
                   ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
                   : undefined
               }
-              modules={[Autoplay, Pagination, Navigation]}
+              modules={[A11y, Autoplay, Pagination, Navigation]}
             >
               {images.map((image, index) => (
                 <SwiperSlide key={image.src}>
