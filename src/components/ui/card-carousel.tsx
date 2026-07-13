@@ -1,8 +1,7 @@
 import { SparklesIcon } from 'lucide-react';
-import { Autoplay, EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
+import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { cn } from '../../lib/utils';
@@ -25,27 +24,13 @@ interface CarouselProps {
 }
 
 const carouselCss = `
-.card-carousel {
-  --carousel-cycle: 30000ms;
-}
 .card-carousel .swiper {
   width: 100%;
   overflow: hidden;
-  padding: clamp(0.5rem, 1.5vw, 1rem) 0 clamp(1rem, 2vw, 1.5rem);
-}
-.card-carousel .swiper-wrapper {
-  display: flex;
-  width: max-content;
-  align-items: center;
-  gap: clamp(0.85rem, 2.2vw, 1.6rem);
-  animation: artek-carousel-scroll var(--carousel-cycle) linear infinite;
-}
-.card-carousel:hover .swiper-wrapper {
-  animation-play-state: paused;
+  padding: clamp(0.5rem, 1.5vw, 1rem) 0 2.25rem;
 }
 .card-carousel .swiper-slide {
-  flex: 0 0 clamp(12rem, 28vw, 19rem);
-  transform: translateZ(0);
+  width: clamp(12rem, 28vw, 19rem);
 }
 .card-carousel__frame {
   position: relative;
@@ -120,19 +105,27 @@ const carouselCss = `
   transform: scale(1.035);
   filter: saturate(1.05);
 }
-.card-carousel__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.35rem;
-  padding-bottom: 0.25rem;
+.card-carousel .swiper-pagination {
+  bottom: 0.55rem;
 }
-.card-carousel__dot {
-  width: 0.36rem;
-  height: 0.36rem;
+.card-carousel .swiper-pagination-bullet {
+  position: relative;
+  width: 0.4rem;
+  height: 0.4rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 1;
+  transition:
+    width 200ms var(--ease-out),
+    background-color 200ms var(--ease-out);
 }
-.card-carousel__dot:first-child {
+/* Zona táctil ampliada sin cambiar el tamaño visual del dot */
+.card-carousel .swiper-pagination-bullet::before {
+  content: '';
+  position: absolute;
+  inset: -0.65rem;
+}
+.card-carousel .swiper-pagination-bullet-active {
   width: 1.25rem;
   background: var(--accent-strong);
 }
@@ -156,19 +149,6 @@ const carouselCss = `
   background: rgba(11, 9, 7, 0.64);
   color: var(--fg);
 }
-@keyframes artek-carousel-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-50% - clamp(0.85rem, 2.2vw, 1.6rem) / 2));
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .card-carousel .swiper-wrapper {
-    animation: none;
-  }
-}
 `;
 
 export function CardCarousel({
@@ -181,13 +161,13 @@ export function CardCarousel({
   description,
   className,
 }: CarouselProps) {
-  const slides = images.length > 1 ? [...images, ...images] : images;
-  const cycleDuration = `${Math.max(autoplayDelay * images.length, 12000)}ms`;
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   return (
     <section
       className={cn('card-carousel tw:w-full', className)}
-      style={{ '--carousel-cycle': cycleDuration }}
       aria-label="Carrusel de productos Artek"
     >
       <style>{carouselCss}</style>
@@ -208,24 +188,30 @@ export function CardCarousel({
             )}
 
             <Swiper
-              spaceBetween={50}
-              autoplay={{ delay: autoplayDelay, disableOnInteraction: false }}
-              effect="coverflow"
+              spaceBetween={24}
+              speed={600}
+              autoplay={
+                prefersReducedMotion
+                  ? false
+                  : {
+                      delay: autoplayDelay,
+                      disableOnInteraction: false,
+                      pauseOnMouseEnter: false,
+                    }
+              }
               grabCursor
-              centeredSlides
-              loop
+              loop={images.length > 1}
               slidesPerView="auto"
-              coverflowEffect={{ rotate: 0, stretch: 0, depth: 100, modifier: 2.5 }}
-              pagination={showPagination}
+              pagination={showPagination ? { clickable: true, dynamicBullets: true } : false}
               navigation={
                 showNavigation
                   ? { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
                   : undefined
               }
-              modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
+              modules={[A11y, Autoplay, Pagination, Navigation]}
             >
-              {slides.map((image, index) => (
-                <SwiperSlide key={`${image.src}-${index}`}>
+              {images.map((image, index) => (
+                <SwiperSlide key={image.src}>
                   <div className="card-carousel__image-shell">
                     <img
                       src={image.src}
@@ -244,14 +230,6 @@ export function CardCarousel({
               <div className="card-carousel__nav" aria-hidden="true">
                 <span className="card-carousel__nav-button swiper-button-prev">‹</span>
                 <span className="card-carousel__nav-button swiper-button-next">›</span>
-              </div>
-            )}
-
-            {showPagination && (
-              <div className="card-carousel__dots" aria-hidden="true">
-                {images.slice(0, 5).map((image) => (
-                  <span className="card-carousel__dot" key={image.src} />
-                ))}
               </div>
             )}
           </div>

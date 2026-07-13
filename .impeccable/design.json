@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-12T19:05:00-06:00",
+  "title": "Design System: Artek",
+  "extensions": {
+    "colorMeta": {
+      "brand-red": { "role": "primary", "displayName": "Brasa (rojo)", "canonical": "#fa3543", "tonalRamp": ["#33060a", "#5c0d15", "#8a1421", "#c2242f", "#fa3543", "#fb6a74", "#fd9ba2", "#fed3d6"] },
+      "brand-orange": { "role": "primary", "displayName": "Brasa (naranja)", "canonical": "#f99700", "tonalRamp": ["#331f00", "#5c3800", "#8a5500", "#c27600", "#f99700", "#fab04a", "#fcca8a", "#fde5c7"] },
+      "brand-mid": { "role": "primary", "displayName": "Brasa de Taller", "canonical": "#f86720", "tonalRamp": ["#331303", "#5c2408", "#8a380f", "#c25017", "#f86720", "#f98b55", "#fbb18c", "#fdd8c5"] },
+      "void": { "role": "neutral", "displayName": "Vacío", "canonical": "#0b0907", "tonalRamp": ["#0b0907", "#1c1813", "#332c24", "#4d443a", "#6b6154", "#8a8175", "#ada69b", "#d6d1c9"] },
+      "ink-deep": { "role": "neutral", "displayName": "Carbón Profundo", "canonical": "#13100d", "tonalRamp": ["#0b0907", "#13100d", "#251f18", "#3d342a", "#5c5143", "#8a8175", "#ada69b", "#d6d1c9"] },
+      "surface": { "role": "neutral", "displayName": "Superficie", "canonical": "#1c1813", "tonalRamp": ["#0b0907", "#13100d", "#1c1813", "#332c24", "#4d443a", "#6b6154", "#8a8175", "#ada69b"] },
+      "surface-2": { "role": "neutral", "displayName": "Superficie Elevada", "canonical": "#251f18", "tonalRamp": ["#0b0907", "#13100d", "#1c1813", "#251f18", "#3d342a", "#5c5143", "#8a8175", "#ada69b"] },
+      "paper": { "role": "neutral", "displayName": "Papel Cálido", "canonical": "#f4f1ec", "tonalRamp": ["#332e26", "#5c5346", "#8a8175", "#ada69b", "#cdc8c0", "#e1ddd6", "#f4f1ec", "#faf8f5"] },
+      "muted": { "role": "neutral", "displayName": "Apagado", "canonical": "#ada69b", "tonalRamp": ["#1c1813", "#332e26", "#4d453a", "#6b6154", "#8a8175", "#ada69b", "#cdc8c0", "#e1ddd6"] },
+      "ink-on-accent": { "role": "neutral", "displayName": "Tinta sobre Brasa", "canonical": "#1a0d06", "tonalRamp": ["#1a0d06", "#33190c", "#5c2e15", "#8a4520", "#c2612d", "#f86720", "#f98b55", "#fbb18c"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Titulares hero h1 en mayúsculas; techo 6rem." },
+      "headline": { "displayName": "Headline", "purpose": "Títulos de sección h2 en mayúsculas." },
+      "title": { "displayName": "Title", "purpose": "h3: cards de servicio, subsecciones." },
+      "body": { "displayName": "Body", "purpose": "Párrafos, máx 68ch, text-wrap: pretty." },
+      "label": { "displayName": "Label / Eyebrow", "purpose": "Eyebrows en acento, labels de botón UPPERCASE tracking 0.18em." }
+    },
+    "shadows": [
+      { "name": "cta-glow", "value": "0 10px 30px -10px color-mix(in srgb, #f86720 80%, transparent)", "purpose": "Solo en hover del botón sólido; la brasa irradia." },
+      { "name": "artwork-frame", "value": "0 28px 70px rgba(0, 0, 0, 0.34)", "purpose": "Marcos de carrusel/galería que presentan fotografías; única sombra estructural." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Entradas y feedback de UI." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "Movimiento en pantalla." },
+      { "name": "ease-drawer", "value": "cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Paneles tipo iOS." },
+      { "name": "ease-art", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Curva editorial de marca (zoom de obra, hero)." },
+      { "name": "dur-fast", "value": "140ms", "purpose": "Press feedback, hovers." },
+      { "name": "dur", "value": "220ms", "purpose": "Transiciones base." },
+      { "name": "dur-slow", "value": "420ms", "purpose": "Overlays y reveals." },
+      { "name": "dur-image", "value": "700ms", "purpose": "Zoom lento de obra." }
+    ],
+    "breakpoints": [
+      { "name": "nav-desktop", "value": "52.0625rem" },
+      { "name": "hero-split", "value": "60rem" },
+      { "name": "hero-bleed", "value": "90rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón Sólido",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "CTA primario: gradiente Brasa de Taller con texto oscuro AA.",
+      "html": "<button class=\"ds-btn ds-btn-solid\">Escríbenos por WhatsApp</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.6em; padding: 0.85em 1.6em; border: 1px solid transparent; border-radius: 3px; font-family: 'Avant Garde', system-ui, sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; background: none; transition: background 220ms cubic-bezier(0.23,1,0.32,1), color 220ms cubic-bezier(0.23,1,0.32,1), box-shadow 220ms cubic-bezier(0.23,1,0.32,1), transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn:active { transform: scale(0.97); } .ds-btn-solid { background: linear-gradient(105deg, #fa3543 0%, #f99700 100%); color: #1a0d06; } .ds-btn-solid:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -10px rgba(248, 103, 32, 0.8); } .ds-btn-solid:focus-visible { outline: 2px solid #f99700; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón Outline",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secundario: borde hairline que invierte a papel cálido en hover.",
+      "html": "<button class=\"ds-btn ds-btn-outline\">Ver portafolio</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.6em; padding: 0.85em 1.6em; border: 1px solid transparent; border-radius: 3px; font-family: 'Avant Garde', system-ui, sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; background: none; transition: background 220ms cubic-bezier(0.23,1,0.32,1), color 220ms cubic-bezier(0.23,1,0.32,1), border-color 220ms cubic-bezier(0.23,1,0.32,1), transform 140ms cubic-bezier(0.23,1,0.32,1); } .ds-btn:active { transform: scale(0.97); } .ds-btn-outline { color: #f4f1ec; border-color: rgba(255, 247, 238, 0.2); } .ds-btn-outline:hover { background: #f4f1ec; color: #13100d; border-color: #f4f1ec; } .ds-btn-outline:focus-visible { outline: 2px solid #f99700; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón Ghost",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Terciario: sin caja, subrayado de gradiente bajo el label.",
+      "html": "<button class=\"ds-btn-ghost\"><span class=\"ds-btn-ghost-label\">Ver portafolio</span></button>",
+      "css": ".ds-btn-ghost { display: inline-flex; padding: 0.85em 0; border: none; background: none; color: #f4f1ec; font-family: 'Avant Garde', system-ui, sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; } .ds-btn-ghost-label { border-bottom: 2px solid transparent; background-image: linear-gradient(105deg, #fa3543 0%, #f99700 100%); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 2px; padding-bottom: 0.3em; transition: color 220ms cubic-bezier(0.23,1,0.32,1); } .ds-btn-ghost:hover .ds-btn-ghost-label { color: #f99700; } .ds-btn-ghost:focus-visible { outline: 2px solid #f99700; outline-offset: 3px; }"
+    },
+    {
+      "name": "Eyebrow",
+      "kind": "chip",
+      "refersTo": "eyebrow",
+      "description": "Label superior de sección en acento brasa; racionado (≤1 por 3 secciones).",
+      "html": "<p class=\"ds-eyebrow\">Impresión fine art · Guatemala</p>",
+      "css": ".ds-eyebrow { font-family: 'Avant Garde', system-ui, sans-serif; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #f99700; margin: 0; }"
+    },
+    {
+      "name": "Fila de Servicio",
+      "kind": "card",
+      "refersTo": "button-ghost",
+      "description": "El 'card' del sistema: fila con hairline superior, sin caja; hover desliza y enciende la línea.",
+      "html": "<a class=\"ds-service-row\" href=\"#\"><h3 class=\"ds-service-title\">Impresión en aluminio</h3><p class=\"ds-service-summary\">ChromaLuxe y aluminio estándar en acabados plateado, dorado y cobre.</p><span class=\"ds-service-more\">Conocer más <span class=\"ds-service-arrow\">→</span></span></a>",
+      "css": ".ds-service-row { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.75rem 0; border-top: 1px solid rgba(255, 247, 238, 0.11); text-decoration: none; color: #f4f1ec; transition: border-color 220ms cubic-bezier(0.23,1,0.32,1), transform 220ms cubic-bezier(0.23,1,0.32,1); } .ds-service-row:hover { border-top-color: #f99700; transform: translateX(6px); } .ds-service-title { margin: 0; font-family: 'Avant Garde', system-ui, sans-serif; font-size: 1.6rem; font-weight: 400; line-height: 1.18; letter-spacing: 0.01em; text-transform: uppercase; transition: color 220ms cubic-bezier(0.23,1,0.32,1); } .ds-service-row:hover .ds-service-title { color: #f99700; } .ds-service-summary { margin: 0; color: #ada69b; font-size: 1rem; line-height: 1.65; max-width: 42ch; } .ds-service-more { font-size: 0.9rem; letter-spacing: 0.18em; text-transform: uppercase; } .ds-service-arrow { display: inline-block; transition: transform 220ms cubic-bezier(0.23,1,0.32,1); } .ds-service-row:hover .ds-service-arrow { transform: translateX(5px); }"
+    },
+    {
+      "name": "Link de Navegación",
+      "kind": "nav",
+      "refersTo": "eyebrow",
+      "description": "Link de header: uppercase con tracking corto; activo subrayado.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-is-active\" href=\"#\">Inicio</a><a class=\"ds-nav-link\" href=\"#\">Servicios</a><a class=\"ds-nav-link\" href=\"#\">Portafolio</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 1.75rem; background: #13100d; padding: 1rem 1.5rem; } .ds-nav-link { font-family: 'Avant Garde', system-ui, sans-serif; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; color: #f4f1ec; text-decoration: none; transition: color 220ms cubic-bezier(0.23,1,0.32,1); } .ds-nav-link:hover { color: #f99700; } .ds-nav-link.ds-is-active { border-bottom: 2px solid #f99700; padding-bottom: 0.35em; }"
+    },
+    {
+      "name": "Marco de Obra",
+      "kind": "custom",
+      "refersTo": "button-solid",
+      "description": "Contenedor vidrio-oscuro que presenta fotografías (carruseles/galería); única sombra estructural del sistema.",
+      "html": "<div class=\"ds-artframe\"><div class=\"ds-artframe-inner\"><div class=\"ds-artframe-img\"></div></div></div>",
+      "css": ".ds-artframe { position: relative; overflow: hidden; border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035)), rgba(11, 9, 7, 0.52); box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34); backdrop-filter: blur(14px); } .ds-artframe-inner { padding: 1.1rem; } .ds-artframe-img { aspect-ratio: 4 / 5; width: 14rem; border-radius: 0.9rem; border: 1px solid rgba(255, 255, 255, 0.12); background: linear-gradient(160deg, #8a4520, #33060a); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Atelier Oscuro",
+    "overview": "Artek es un taller-galería nocturno. El muro es carbón cálido (nunca negro puro, nunca gris frío), la iluminación son dos focos de galería apenas perceptibles en las esquinas, y las únicas fuentes de color intenso son las piezas impresas del catálogo y la brasa del acento de marca. Todo lo demás trabaja en silencio para que la obra brille. El sistema rechaza explícitamente el look de imprenta comercial genérica: nada de catálogos saturados, banners de oferta, grids apretados de producto ni tarjetas-caja repetidas. Las agrupaciones se hacen con hairlines cálidas y espacio negativo, no con contenedores.",
+    "keyCharacteristics": [
+      "Muro carbón cálido con capas tonales (ink-deep → surface → surface-2), sin modo claro.",
+      "Un solo acento: el gradiente de marca Brasa de Taller (#fa3543 → #f99700), racionado.",
+      "Una sola familia tipográfica (Avant Garde) en mayúsculas para display, con escala fluida clamp().",
+      "Filas con hairline en vez de cards; radio casi nulo (3px) en lo interactivo.",
+      "Movimiento sobrio que escucha: ease-out exponenciales, duraciones cortas, prefers-reduced-motion siempre respetado."
+    ],
+    "rules": [
+      { "name": "The Brasa Ration Rule", "body": "El acento de marca aparece en ≤10% de cualquier pantalla. Si dos elementos vecinos piden brasa, uno la pierde. Su escasez es lo que la hace leerse como calor.", "section": "colors" },
+      { "name": "The Warm Wall Rule", "body": "Prohibido el negro puro (#000), el blanco puro (#fff) y cualquier gris frío. Todo neutro lleva la calidez del muro. Si un tono parece 'de dashboard', está mal.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Prohibido introducir una segunda familia tipográfica en UI. El énfasis se hace con peso, escala o color de acento, nunca con otra fuente.", "section": "typography" },
+      { "name": "The Flat-At-Rest Rule", "body": "Ninguna superficie proyecta sombra en reposo salvo los marcos de obra. Si una card 'flota' sin que el usuario haya hecho nada, está mal.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do dejar que las fotografías del catálogo sean la fuente principal de color; el sistema las enmarca sobre carbón cálido.",
+      "Do racionar la Brasa de Taller (≤10% por pantalla) y preferir #f99700 sobre oscuro.",
+      "Do agrupar con hairlines (#fff7ee al 11–20%) y espacio negativo antes que con cajas.",
+      "Do usar la escala --space-* y la escala tipográfica --step-* para todo; cero valores mágicos.",
+      "Do dar feedback táctil: :active scale 0.97, hovers ≤220ms con --ease-out, y variante reduced-motion en todo movimiento.",
+      "Do mantener AA como piso: texto secundario ≥4.5:1, foco visible con outline de --accent-strong."
+    ],
+    "donts": [
+      "Don't verse como 'imprenta comercial genérica': prohibidos los catálogos saturados, banners de ofertas, precios chillones, grids de producto apretados y stock genérico.",
+      "Don't usar negro #000, blanco #fff ni grises fríos; todo neutro es cálido.",
+      "Don't introducir una segunda familia tipográfica ni hyphens: auto en titulares.",
+      "Don't poner sombras estructurales en reposo fuera de los marcos de obra, ni glassmorphism decorativo fuera de ellos.",
+      "Don't animar .swiper-wrapper (u otro interno de librería) con keyframes CSS propios; la animación pisa los transforms de la librería y mata la interacción.",
+      "Don't superar 6rem en display ni dejar que un titular en mayúsculas desborde su bloque: la palabra baja entera de línea."
+    ]
+  }
+}
